@@ -1,3 +1,1 @@
-# GALACTUS-Beyond-imagination-
-
-Sexy ladke
+# GALACTUS-Beyond-imagination

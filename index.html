@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perihelion — An Interactive Field Guide to the Night Sky</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23e3b15f'/%3E%3Cellipse cx='12' cy='12' rx='10.5' ry='4.4' fill='none' stroke='%23e3b15f' transform='rotate(-24 12 12)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="brand" href="#top">
+      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="3" fill="var(--gold)"/>
+        <ellipse cx="12" cy="12" rx="10" ry="4.2" stroke="rgba(233,228,214,.7)" stroke-width="1" transform="rotate(-24 12 12)"/>
+        <circle cx="20.1" cy="11.3" r="1.4" fill="var(--ink)"/>
+      </svg>
+      PERIHELION
+    </a>
+    <div class="nav-links">
+      <a href="#solar"><span>01</span>Solar System</a>
+      <a href="#stars"><span>02</span>Lives of Stars</a>
+      <a href="#scale"><span>03</span>Cosmic Scale</a>
+      <a href="#quiz"><span>04</span>Quiz</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <p class="kicker">AN INTERACTIVE FIELD GUIDE TO THE NIGHT SKY</p>
+      <h1>Find your place<br><em>among the stars.</em></h1>
+      <p class="lede">Four short chapters in applied curiosity: race the planets around the Sun,
+        grow a star from a cloud of dust and watch how it dies, then drag yourself to the
+        edge of the observable universe.</p>
+      <div class="hero-cta">
+        <a class="btn solid" href="#solar">Begin with the Solar System
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a class="btn ghost" href="#quiz">Jump to the quiz</a>
+      </div>
+      <div class="hero-data">
+        <span><b>13.8 BN</b>&nbsp;YEARS OF TIME</span>
+        <span><b>2 TN</b>&nbsp;GALAXIES</span>
+        <span><b>8</b>&nbsp;PLANETS</span>
+        <span><b>1</b>&nbsp;YOU</span>
+      </div>
+    </div>
+    <div class="hero-hint">
+      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v18M3 12h18M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5"/></svg>
+      MOVE ACROSS THE SKY — NEARBY STARS WILL LINK INTO CONSTELLATIONS
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ 01 SOLAR SYSTEM ============ -->
+    <section class="section" id="solar">
+      <div class="section-head reveal">
+        <div class="head-rule"><span class="sec-no">01</span><span class="rule"></span><span class="sec-tag">Chapter One</span></div>
+        <h2>The Solar System</h2>
+        <p class="sec-sub">Eight worlds and one ordinary yellow dwarf. Watch Mercury lap the Sun
+          while Neptune barely creeps along its orbit — the period of every planet is proportional.
+          Click any planet to open its dossier.</p>
+      </div>
+      <div class="solar-wrap reveal" style="--d:.08s">
+        <div class="orbit-stage">
+          <span class="canvas-hint">CLICK A PLANET FOR ITS DOSSIER</span>
+          <canvas id="orbits"></canvas>
+        </div>
+        <aside class="planet-card" id="planetCard" aria-live="polite"></aside>
+      </div>
+      <div class="orbit-controls reveal" style="--d:.16s">
+        <button class="icon-btn" id="playBtn" type="button" aria-label="Pause orbits">
+          <svg class="i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>
+          <svg class="i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
+        </button>
+        <span class="oc-lab">ORBITAL SPEED</span>
+        <input type="range" id="speedRange" min="0.2" max="5" step="0.1" value="1" aria-label="Orbital speed">
+        <span class="oc-read" id="speedOut">1.0×</span>
+        <span class="oc-note">DISTANCES COMPRESSED (r ∝ a^0.4) · PLANET SIZES EXAGGERATED · PERIODS PROPORTIONAL</span>
+      </div>
+    </section>
+
+    <!-- ============ 02 LIVES OF STARS ============ -->
+    <section class="section" id="stars">
+      <div class="section-head reveal">
+        <div class="head-rule"><span class="sec-no">02</span><span class="rule"></span><span class="sec-tag">Chapter Two</span></div>
+        <h2>Lives of Stars</h2>
+        <p class="sec-sub">Every star is a story told by gravity, and the ending was written at birth.
+          Choose a birth mass below and trace the whole biography — from cold dust to whatever remains.</p>
+      </div>
+      <div class="star-lab reveal" style="--d:.08s">
+        <div class="star-stage">
+          <canvas id="starCanvas"></canvas>
+        </div>
+        <div class="star-panel">
+          <div class="sp-block">
+            <div class="sp-label"><span>STELLAR MASS AT BIRTH</span><span id="massOut">—</span></div>
+            <input type="range" id="massRange" min="0" max="100" step="0.5" value="38.4" aria-label="Stellar mass in solar masses">
+            <div class="sp-hint"><span>0.1 M☉</span><span>LOGARITHMIC SCALE</span><span>40 M☉</span></div>
+          </div>
+          <div class="sp-stats">
+            <div class="sp-stat"><small>Surface temperature</small><span id="stTemp">—</span></div>
+            <div class="sp-stat"><small>Luminosity</small><span id="stLum">—</span></div>
+            <div class="sp-stat"><small>Main-sequence lifetime</small><span id="stLife">—</span></div>
+            <div class="sp-stat"><small>Predicted remnant</small><span id="stRem">—</span></div>
+          </div>
+          <div class="sp-block">
+            <div class="sp-label"><span>STELLAR LIFECYCLE</span><span>CLICK A STAGE</span></div>
+            <div class="stages" id="stageNodes">
+              <button class="stage" type="button"><i></i><span>Nebula</span></button>
+              <button class="stage" type="button"><i></i><span>Protostar</span></button>
+              <button class="stage" type="button"><i></i><span>Main sequence</span></button>
+              <button class="stage" type="button"><i></i><span>Red giant</span></button>
+              <button class="stage" type="button"><i></i><span>Remnant</span></button>
+            </div>
+            <p id="stageDesc"></p>
+            <button class="btn ghost small" id="traceBtn" type="button">Trace the lifecycle
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 03 COSMIC SCALE ============ -->
+    <section class="section" id="scale">
+      <div class="section-head reveal">
+        <div class="head-rule"><span class="sec-no">03</span><span class="rule"></span><span class="sec-tag">Chapter Three</span></div>
+        <h2>The Cosmic Scale</h2>
+        <p class="sec-sub">Astronomical distances break human intuition, so this ruler is logarithmic.
+          Drag the marker: every step to the right multiplies your distance from Earth by ten.</p>
+      </div>
+      <div class="ladder-wrap reveal" style="--d:.08s">
+        <span class="canvas-hint">DRAG THE MARKER — EACH STEP IS ×10</span>
+        <canvas id="ladder"></canvas>
+      </div>
+      <div class="ladder-readout reveal" style="--d:.14s">
+        <div class="lr-cell"><small>DISTANCE FROM EARTH</small><span id="ladderDist">—</span></div>
+        <div class="lr-cell"><small>NEAREST LANDMARK</small><span id="ladderLandmark">—</span></div>
+      </div>
+      <p class="ladder-fact reveal" id="ladderFact" style="--d:.2s"></p>
+    </section>
+
+    <!-- ============ 04 QUIZ ============ -->
+    <section class="section" id="quiz">
+      <div class="section-head reveal">
+        <div class="head-rule"><span class="sec-no">04</span><span class="rule"></span><span class="sec-tag">Chapter Four</span></div>
+        <h2>Test Your Bearing</h2>
+        <p class="sec-sub">Six questions, no trick answers — only things you've just read. Rank yourself honestly.</p>
+      </div>
+      <div class="quiz-box reveal" id="quizBox" style="--d:.08s"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="foot-inner">
+      <span>PERIHELION — A FIELD GUIDE TO THE NIGHT SKY</span>
+      <span>DATA: NASA PLANETARY FACT SHEETS · SIZES EXAGGERATED FOR LEGIBILITY · CLEAR SKIES</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

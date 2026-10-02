@@ -1,0 +1,22 @@
+/* ---------- 03 Cosmic scale ---------- */
+.ladder-wrap{
+  position:relative; border:1px solid var(--line);
+  background:var(--bg-panel); padding:12px 6px 8px;
+}
+#ladder{ width:100%; height:190px; touch-action:pan-y; cursor:ew-resize; }
+.ladder-readout{ display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:22px; }
+.lr-cell{ border-top:1px solid var(--line); padding-top:14px; }
+.lr-cell small{
+  display:block; font-family:var(--mono); font-size:10px;
+  letter-spacing:.18em; color:var(--muted); margin-bottom:8px;
+}
+#ladderDist{ font-family:var(--mono); font-size:clamp(15px,2vw,19px); color:var(--gold); }
+#ladderLandmark{ font-family:var(--serif); font-size:clamp(17px,2.2vw,22px); }
+.ladder-fact{
+  margin-top:24px; max-width:72ch; min-height:3.4em;
+  color:var(--muted); font-size:14.5px; line-height:1.7;
+  border-left:2px solid var(--gold); padding-left:16px;
+}
+.ladder-fact.flash{ animation:factIn .45s ease; }
+@keyframes factIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:none; } }
+

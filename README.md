@@ -34,3 +34,17 @@ The interactive behavior is split into small browser modules:
 
 The page loads `script.js` as an ES module, so the feature modules can import
 only the shared functionality they need.
+
+Styles are organized the same way:
+
+- `styles.css` is the stylesheet entry point and preserves import order.
+- `css/base.css` contains theme tokens and global defaults.
+- `css/navigation.css`, `css/hero.css`, and `css/controls.css` contain shared UI styles.
+- `css/layout.css` contains section layout styles.
+- `css/solar-system.css`, `css/stellar-lifecycle.css`, `css/cosmic-scale.css`, and `css/quiz.css` contain chapter-specific styles.
+- `css/footer.css`, `css/animations.css`, and `css/responsive.css` contain shared finishing and responsive rules.
+
+The console simulations also have reusable modules:
+
+- `simulations/c/planet.h`, `physics.h`, and `terminal.h` contain the C model, physics, and terminal helpers used by `simulation1.c`.
+- `simulations/cpp/planet.hpp`, `physics.hpp`, and `terminal.hpp` contain the equivalent C++ helpers used by `orbit.cpp`.

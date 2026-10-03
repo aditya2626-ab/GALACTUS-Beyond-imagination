@@ -28,7 +28,8 @@
 }
 .pc-row i{ flex:1; border-bottom:1px dotted rgba(233,228,214,.22); transform:translateY(-3px); }
 .pc-row dd{ font-family:var(--mono); font-size:12.5px; text-align:right; flex:none; }
-.pc-next{ margin-top:auto; align-self:flex-start; }
+.pc-nav{ display:flex; justify-content:space-between; gap:10px; margin-top:auto; }
+.pc-nav .btn{ display:inline-flex; align-items:center; gap:7px; }
 
 .orbit-controls{
   display:flex; align-items:center; gap:16px; margin-top:16px; flex-wrap:wrap;
@@ -39,4 +40,3 @@
   margin-left:auto; font-family:var(--mono); font-size:9.5px;
   letter-spacing:.08em; color:var(--muted); text-align:right;
 }
-

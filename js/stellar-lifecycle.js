@@ -5,8 +5,9 @@ import { $, $$, TAU, seeded, sizeCanvas, watchVisible } from './shared.js';
   const canvas = $('#starCanvas'); if (!canvas) return;
   const stage = canvas.parentElement;
   const massRange = $('#massRange'), massOut = $('#massOut');
+  const massNote = $('#massNote');
   const outT = $('#stTemp'), outL = $('#stLum'), outLife = $('#stLife'), outRem = $('#stRem');
-  const descEl = $('#stageDesc'), traceBtn = $('#traceBtn');
+  const descEl = $('#stageDesc'), traceBtn = $('#traceBtn'), traceLabel = $('#traceLabel');
   const nodes = $$('#stageNodes .stage');
 
   const M_MIN = .1, M_MAX = 40, SPAN = Math.log(M_MAX / M_MIN);
@@ -37,7 +38,7 @@ import { $, $$, TAU, seeded, sizeCanvas, watchVisible } from './shared.js';
     return [cl(r), cl(g), cl(b)];
   };
 
-  const state = { m: 1, stage: 2, t: 0 };
+  const state = { m: massOf(parseFloat(massRange.value)), stage: 2, t: 0 };
 
   const STAGE_DESC = [
     () => `Everything begins in a molecular cloud — hydrogen and dust drifting a few degrees above absolute zero, light-years across. Gravity gathers the gas into knots, and one knot starts falling in on itself.`,
@@ -158,30 +159,45 @@ import { $, $$, TAU, seeded, sizeCanvas, watchVisible } from './shared.js';
 
   function update(){
     const m = state.m, T = 5778 * Math.sqrt(m), L = Math.pow(m, 3.5);
+    const fate = remnantOf(m);
     massOut.textContent = 'MASS \u00b7 ' + massStr(m) + ' M\u2609';
     outT.textContent = Math.round(T).toLocaleString('en-US') + ' K';
     outL.textContent = fmtLum(L);
     outLife.textContent = fmtLife(m);
-    outRem.textContent = remnantOf(m);
+    outRem.textContent = fate;
     nodes[3].lastElementChild.textContent = m >= 8 ? 'Supergiant' : 'Red giant';
-    nodes[4].lastElementChild.textContent = remnantOf(m);
+    nodes[4].lastElementChild.textContent = fate;
+    massNote.textContent = m < 8
+      ? 'This star ends as a white dwarf because it was born below 8 M\u2609.'
+      : m < 20
+        ? 'This star ends as a neutron star because it was born between 8 and 20 M\u2609.'
+        : 'This star ends as a black hole because it was born above 20 M\u2609.';
     descEl.textContent = STAGE_DESC[state.stage](m);
   }
 
-  function stopTrace(){ if (traceTimer){ clearInterval(traceTimer); traceTimer = null; } }
-  function setStage(i){
+  function stopTrace(){
+    if (traceTimer){ clearInterval(traceTimer); traceTimer = null; }
+    traceLabel.textContent = 'Play lifecycle';
+    traceBtn.setAttribute('aria-pressed', 'false');
+  }
+  function setStage(i, stop = true){
+    if (stop) stopTrace();
     state.stage = i;
     nodes.forEach((n, j) => n.classList.toggle('active', j === i));
     descEl.textContent = STAGE_DESC[i](state.m);
-    stopTrace();
+    descEl.setAttribute('aria-label', `${nodes[i].lastElementChild.textContent} stage`);
   }
   nodes.forEach((n, i) => n.addEventListener('click', () => setStage(i)));
   traceBtn.addEventListener('click', () => {
+    if (traceTimer){ stopTrace(); return; }
     stopTrace();
-    let i = 0; setStage(0);
+    let i = 0;
+    traceLabel.textContent = 'Pause lifecycle';
+    traceBtn.setAttribute('aria-pressed', 'true');
+    setStage(0, false);
     traceTimer = setInterval(() => {
       if (++i > 4){ stopTrace(); return; }
-      setStage(i);
+      setStage(i, false);
     }, 1300);
   });
   massRange.addEventListener('input', () => {

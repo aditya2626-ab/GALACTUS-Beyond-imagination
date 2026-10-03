@@ -49,6 +49,7 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
 
   const row = (name, val) =>
     `<div class="pc-row"><dt>${name}</dt><i></i><dd>${val}</dd></div>`;
+  const BACK = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>';
 
   function renderCard(pl, idx){
     card.classList.add('fade');
@@ -65,7 +66,10 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
           ${row('Year length', pl.year)}
           ${row('Known moons', pl.moons)}
         </dl>
-        <button class="btn ghost small pc-next" type="button">Next planet ${ARROW}</button>`;
+        <div class="pc-nav">
+          <button class="btn ghost small pc-prev" type="button">${BACK} Previous planet</button>
+          <button class="btn ghost small pc-next" type="button">Next planet ${ARROW}</button>
+        </div>`;
       card.classList.remove('fade');
     }, 140);
   }
@@ -151,6 +155,7 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
     if (i > -1) select(i);
   });
   card.addEventListener('click', e => {
+    if (e.target.closest('.pc-prev')) select((sel - 1 + p.length) % p.length);
     if (e.target.closest('.pc-next')) select((sel + 1) % p.length);
   });
 

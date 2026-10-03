@@ -10,6 +10,19 @@ export function seeded(seed){
   return () => (s = (s * 1664525 + 1013904223) >>> 0) / 4294967296;
 }
 
+export function shuffle(items){
+  const result = [...items];
+  const crypto = globalThis.crypto;
+  for (let i = result.length - 1; i > 0; i--){
+    const random = crypto
+      ? crypto.getRandomValues(new Uint32Array(1))[0] / 4294967296
+      : Math.random();
+    const j = Math.floor(random * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
 /* DPR-aware canvas sizing; returns live 2D context + CSS dimensions */
 export function sizeCanvas(canvas){
   const dpr = Math.min(window.devicePixelRatio || 1, 2);

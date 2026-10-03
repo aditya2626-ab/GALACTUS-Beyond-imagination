@@ -100,9 +100,10 @@
         </div>
         <div class="star-panel">
           <div class="sp-block">
-            <div class="sp-label"><span>STELLAR MASS AT BIRTH</span><span id="massOut">—</span></div>
+            <div class="sp-label"><span>CHOOSE A STAR'S BIRTH MASS</span><span id="massOut">—</span></div>
             <input type="range" id="massRange" min="0" max="100" step="0.5" value="38.4" aria-label="Stellar mass in solar masses">
             <div class="sp-hint"><span>0.1 M☉</span><span>LOGARITHMIC SCALE</span><span>40 M☉</span></div>
+            <p class="mass-note" id="massNote">This chooses one star to follow. Its mass controls how hot it is, how long it shines, and what it becomes.</p>
           </div>
           <div class="sp-stats">
             <div class="sp-stat"><small>Surface temperature</small><span id="stTemp">—</span></div>
@@ -111,7 +112,7 @@
             <div class="sp-stat"><small>Predicted remnant</small><span id="stRem">—</span></div>
           </div>
           <div class="sp-block">
-            <div class="sp-label"><span>STELLAR LIFECYCLE</span><span>CLICK A STAGE</span></div>
+            <div class="sp-label"><span>STELLAR LIFECYCLE</span><span>SELECT A STAGE</span></div>
             <div class="stages" id="stageNodes">
               <button class="stage" type="button"><i></i><span>Nebula</span></button>
               <button class="stage" type="button"><i></i><span>Protostar</span></button>
@@ -119,8 +120,9 @@
               <button class="stage" type="button"><i></i><span>Red giant</span></button>
               <button class="stage" type="button"><i></i><span>Remnant</span></button>
             </div>
+            <p class="stage-note">These stages describe the star selected above. Select one to inspect it, or play the sequence from beginning to end.</p>
             <p id="stageDesc"></p>
-            <button class="btn ghost small" id="traceBtn" type="button">Trace the lifecycle
+            <button class="btn ghost small" id="traceBtn" type="button" aria-pressed="false"><span id="traceLabel">Play lifecycle</span>
               <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
           </div>

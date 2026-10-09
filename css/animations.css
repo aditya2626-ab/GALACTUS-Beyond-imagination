@@ -10,3 +10,27 @@
   html{ scroll-behavior:auto; }
 }
 
+/* ============ logo animation ============ */
+@media (prefers-reduced-motion: no-preference) {
+
+  .logo-anim .logo-ring {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: logo-draw 1.2s 0.2s cubic-bezier(.4, 0, .2, 1) forwards;
+  }
+  @keyframes logo-draw { to { stroke-dashoffset: 0; } }
+
+  .logo-anim .logo-star {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: logo-twinkle 3.2s 1.6s ease-in-out infinite alternate;
+  }
+  @keyframes logo-twinkle {
+    from { transform: scale(1);    opacity: 1;   }
+    to   { transform: scale(1.12); opacity: .72; }
+  }
+
+  .logo-anim { transition: transform .3s cubic-bezier(.2, .7, .2, 1); }
+  .brand:hover .logo-anim,
+  .brand:focus-visible .logo-anim { transform: scale(1.08) rotate(-6deg); }
+}

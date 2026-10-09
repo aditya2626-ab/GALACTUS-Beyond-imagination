@@ -114,3 +114,7 @@ import { $, REDUCED, GOLD, TAU, seeded, sizeCanvas, watchVisible } from './share
   build();
   requestAnimationFrame(frame);
 })();
+// freeze the orbiting planet for users who prefer reduced motion
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.querySelectorAll('.logo-anim').forEach(svg => svg.pauseAnimations());
+}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glactus — An Interactive Field Guide to the Night Sky</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%23e3b15f'/%3E%3Cellipse cx='12' cy='12' rx='10.5' ry='4.4' fill='none' stroke='%23e3b15f' transform='rotate(-24 12 12)'/%3E%3C/svg%3E">
+  <title>Galactus</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='100' height='100' rx='14' fill='%23101418'/%3E%3Cg transform='translate(7 7) scale(0.25)'%3E%3Cpath d='M147.28 63.06A60 60 0 1 0 160 100L124 100' fill='none' stroke='%23F2EFE6' stroke-width='17' stroke-linejoin='round'/%3E%3Ccircle cx='156.7' cy='80.5' r='6' fill='%23E8B54A'/%3E%3Cpath d='M100 85Q102.9 97.1 115 100Q102.9 102.9 100 115Q97.1 102.9 85 100Q97.1 97.1 100 85Z' fill='%23E8B54A'/%3E%3C/g%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
@@ -14,12 +14,23 @@
 
   <nav class="nav">
     <a class="brand" href="#top">
-      <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <circle cx="12" cy="12" r="3" fill="var(--gold)"/>
-        <ellipse cx="12" cy="12" rx="10" ry="4.2" stroke="rgba(233,228,214,.7)" stroke-width="1" transform="rotate(-24 12 12)"/>
-        <circle cx="20.1" cy="11.3" r="1.4" fill="var(--ink)"/>
+      <svg class="logo-anim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30" aria-hidden="true">
+        <path id="gOrbit" fill="none" stroke="none"
+              d="M160 100A60 60 0 0 0 100 40A60 60 0 0 0 40 100A60 60 0 0 0 100 160A60 60 0 0 0 160 100"/>
+        <path class="logo-ring" pathLength="1"
+              d="M147.28 63.06A60 60 0 1 0 160 100L124 100"
+              fill="none" stroke="currentColor" stroke-width="17" stroke-linejoin="round"/>
+        <g class="logo-planet">
+          <circle r="6" fill="#E8B54A"/>
+          <animateMotion dur="16s" repeatCount="indefinite">
+            <mpath href="#gOrbit" xlink:href="#gOrbit"/>
+          </animateMotion>
+        </g>
+        <path class="logo-star"
+              d="M100 85Q102.9 97.1 115 100Q102.9 102.9 100 115Q97.1 102.9 85 100Q97.1 97.1 100 85Z"
+              fill="#E8B54A"/>
       </svg>
-      GALCTUS
+      GALACTUS
     </a>
     <div class="nav-links">
       <a href="#solar"><span>01</span>Solar System</a>
@@ -33,7 +44,7 @@
   <header class="hero" id="top">
     <canvas id="sky" aria-hidden="true"></canvas>
     <div class="hero-inner">
-      <p class="kicker">AN INTERACTIVE FIELD GUIDE TO THE NIGHT SKY</p>
+      <p class="kicker">AN INTERACTIVE FIELD GUIDE OF ASTRONOMY</p>
       <h1>Find your place<br><em>among the stars.</em></h1>
       <p class="lede">Four short chapters in applied curiosity: race the planets around the Sun,
         grow a star from a cloud of dust and watch how it dies, then drag yourself to the
@@ -160,12 +171,7 @@
     </section>
   </main>
 
-  <footer>
-    <div class="foot-inner">
-      <span>Galactus — A FIELD GUIDE TO THE NIGHT SKY</span>
-      <span>DATA: NASA PLANETARY FACT SHEETS · SIZES EXAGGERATED FOR LEGIBILITY · CLEAR SKIES</span>
-    </div>
-  </footer>
+  
 
   <script type="module" src="script.js"></script>
 </body>

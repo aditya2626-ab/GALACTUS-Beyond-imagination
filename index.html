@@ -36,7 +36,8 @@
       <a href="#solar"><span>01</span>Solar System</a>
       <a href="#stars"><span>02</span>Lives of Stars</a>
       <a href="#scale"><span>03</span>Cosmic Scale</a>
-      <a href="#quiz"><span>04</span>Quiz</a>
+      <a href="#glossary"><span>04</span>Glossary</a>
+      <a href="#quiz"><span>05</span>Quiz</a>
     </div>
   </nav>
 
@@ -160,10 +161,40 @@
       <p class="ladder-fact reveal" id="ladderFact" style="--d:.2s"></p>
     </section>
 
-    <!-- ============ 04 QUIZ ============ -->
+<!-- ============ 04GLOSSARY (NEW) ============ -->
+    <section class="section" id="glossary">
+      <div class="section-head reveal">
+        <div class="head-rule"><span class="sec-no">04</span><span class="rule"></span><span class="sec-tag">Chapter Five</span></div>
+        <h2>Astronomy Glossary</h2>
+        <p class="sec-sub">Every term used in the chapters above, with a one-paragraph definition
+          and a link back to where it appears. Filter by topic with the chips, or type in the
+          search box to narrow the list. Use this as a quick reference while you read.</p>
+      </div>
+
+      <div class="glossary-controls reveal" style="--d:.08s">
+        <div class="gl-search-wrap">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="search" id="glossarySearch" placeholder="Search terms…"
+                 aria-label="Search glossary" autocomplete="off" spellcheck="false">
+        </div>
+        <div class="gl-filters" id="glossaryFilters">
+          <button class="gl-chip active" data-cat="All" type="button">All</button>
+          <button class="gl-chip" data-cat="Stellar" type="button">Stars</button>
+          <button class="gl-chip" data-cat="Planetary" type="button">Planets</button>
+          <button class="gl-chip" data-cat="Cosmology" type="button">Cosmology</button>
+          <button class="gl-chip" data-cat="Tools" type="button">Tools</button>
+          <button class="gl-chip" data-cat="Mechanics" type="button">Mechanics</button>
+        </div>
+        <span class="gl-count" id="glossaryCount"></span>
+      </div>
+
+      <div class="glossary-grid reveal" id="glossaryGrid" style="--d:.14s"></div>
+    </section>
+
+    <!-- ============ 05 QUIZ ============ -->
     <section class="section" id="quiz">
       <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">04</span><span class="rule"></span><span class="sec-tag">Chapter Four</span></div>
+        <div class="head-rule"><span class="sec-no">05</span><span class="rule"></span><span class="sec-tag">Chapter Four</span></div>
         <h2>Test Your Bearing</h2>
         <p class="sec-sub">Six questions, no trick answers — only things you've just read. Rank yourself honestly.</p>
       </div>

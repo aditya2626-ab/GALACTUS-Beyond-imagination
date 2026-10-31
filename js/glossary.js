@@ -109,7 +109,16 @@ import { $, $$ } from './shared.js';
       see:'#stars' },
     { term:'Accretion disk', cat:'Mechanics',
       def:'A flat, rotating disk of gas and dust spiralling into a massive central body — a protostar, white dwarf, neutron star, or black hole. Friction heats the disk to enormous temperatures, often making it brighter than any star.',
-      see:'#stars' }
+      see:'#stars' },
+    { term:'Perihelion', cat:'Mechanics',
+      def:'The closest point of an orbit to the Sun (aphelion is the farthest). Planets move fastest at perihelion, per Kepler\u2019s second law: Earth is about 147 million km from the Sun in early January versus 152 million km in July.',
+      see:'#gravity' },
+    { term:'Escape velocity', cat:'Mechanics',
+      def:'The minimum launch speed at which a body leaves a mass forever — \u221a(2GM/r), about 11.2 km/s from Earth\u2019s surface and 617 km/s from the Sun\u2019s surface. Below it, trajectories are bound ellipses; above it, open hyperbolas.',
+      see:'#gravity' },
+    { term:'Vis-viva equation', cat:'Mechanics',
+      def:'The energy bookkeeping of orbits: v\u00b2 = GM(2/r \u2212 1/a). It links a body\u2019s speed to its distance, which is why the Gravity Lab\u2019s readouts are live — every state vector determines the whole orbit at once.',
+      see:'#gravity' }
   ];
 
   const CAT_LABELS = {
@@ -123,6 +132,15 @@ import { $, $$ } from './shared.js';
 
   let active = 'All';
 
+  /* ---- flashcard study mode: terms you mark "Got it" are remembered across visits ---- */
+  const studyBtn = $('#glStudyBtn');
+  let study = false, deck = [], di = 0, got = 0;
+  let known = new Set();
+  try { known = new Set(JSON.parse(localStorage.getItem('galactus:known')) || []); } catch { /* private mode */ }
+  const saveKnown = () => {
+    try { localStorage.setItem('galactus:known', JSON.stringify([...known])); } catch { /* private mode */ }
+  };
+
   function matches(t, filter){
     if (active !== 'All' && t.cat !== active) return false;
     if (!filter) return true;
@@ -133,7 +151,8 @@ import { $, $$ } from './shared.js';
   function termCard(t){
     const seeLabel = t.see === '#solar' ? 'Solar System'
                    : t.see === '#stars' ? 'Lives of Stars'
-                   : t.see === '#scale' ? 'Cosmic Scale' : '';
+                   : t.see === '#scale' ? 'Cosmic Scale'
+                   : t.see === '#gravity' ? 'Gravity Lab' : '';
     const seeEl = seeLabel
       ? `<a class="gl-see" href="${t.see}" aria-label="Open the ${seeLabel} chapter">See: ${seeLabel} →</a>`
       : '';
@@ -151,13 +170,83 @@ import { $, $$ } from './shared.js';
   function render(){
     const filter = (search?.value || '').trim();
     const matches_ = TERMS.filter(t => matches(t, filter));
+    if (study){ buildDeck(matches_); return; }
     wrap.innerHTML = matches_.map(termCard).join('');
     if (countEl){
-      countEl.textContent =
-        matches_.length === 1 ? '1 term'
-                              : `${matches_.length} of ${TERMS.length} terms`;
+      countEl.textContent = known.size
+        ? `${matches_.length} terms · ${known.size} mastered`
+        : matches_.length === 1 ? '1 term'
+        : `${matches_.length} of ${TERMS.length} terms`;
     }
   }
+
+  /* ---- flashcards ---- */
+  function buildDeck(cards){
+    deck = cards; di = 0; got = 0;
+    countEl.textContent = `DECK ${deck.length} · ${known.size} MASTERED`;
+    renderCard();
+  }
+
+  function renderCard(){
+    if (di >= deck.length){
+      wrap.innerHTML = `
+        <div class="gl-done">
+          <p class="q-score">${got}<span> / ${deck.length}</span></p>
+          <h3 class="q-rank">Session complete</h3>
+          <p class="q-note">${got} marked as known this round. ${known.size} term${known.size === 1 ? '' : 's'}
+            mastered in total — your progress is saved in this browser, and mastered terms are counted
+            in the glossary header.</p>
+          <div class="gl-done-btns">
+            <button class="btn solid small" id="glAgain" type="button">Run it again</button>
+            <button class="btn ghost small" id="glBack" type="button">Back to the glossary</button>
+          </div>
+        </div>`;
+      $('#glAgain')?.addEventListener('click', render);
+      $('#glBack')?.addEventListener('click', toggleStudy);
+      return;
+    }
+    const t = deck[di];
+    wrap.innerHTML = `
+      <div class="gl-flash-deck">
+        <div class="gl-flash${known.has(t.term) ? ' mastered' : ''}" id="glCard" tabindex="0"
+             role="button" aria-label="Flashcard: ${t.term}. Activate to flip and reveal the definition.">
+          <div class="gl-flash-inner">
+            <div class="gl-face front">
+              <span class="gl-cat">${CAT_LABELS[t.cat]}</span>
+              <h3 class="gl-term-front">${t.term}</h3>
+              <span class="gl-flip-hint">CLICK TO REVEAL THE DEFINITION</span>
+            </div>
+            <div class="gl-face back">
+              <p class="gl-def">${t.def}</p>
+              <span class="gl-flip-hint">CLICK TO FLIP BACK</span>
+            </div>
+          </div>
+        </div>
+        <div class="gl-flash-ctrl">
+          <span class="gl-count">${String(di + 1).padStart(2, '0')} / ${String(deck.length).padStart(2, '0')}${known.has(t.term) ? ' · MASTERED' : ''}</span>
+          <div class="gl-flash-btns">
+            <button class="btn ghost small" id="glNo" type="button">Still learning</button>
+            <button class="btn solid small" id="glYes" type="button">Got it</button>
+          </div>
+        </div>
+      </div>`;
+    $('#glCard').addEventListener('click', () => $('#glCard').classList.toggle('flip'));
+    $('#glCard').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); $('#glCard').classList.toggle('flip'); }
+    });
+    $('#glYes').addEventListener('click', () => { known.add(t.term); saveKnown(); got++; di++; renderCard(); });
+    $('#glNo').addEventListener('click', () => { known.delete(t.term); saveKnown(); di++; renderCard(); });
+  }
+
+  function toggleStudy(){
+    study = !study;
+    wrap.classList.toggle('flashcards', study);
+    studyBtn.classList.toggle('active', study);
+    studyBtn.setAttribute('aria-pressed', String(study));
+    studyBtn.textContent = study ? 'Exit flashcards' : 'Flashcard mode';
+    render();
+  }
+  studyBtn?.addEventListener('click', toggleStudy);
 
   chips.forEach(c => c.addEventListener('click', () => {
     chips.forEach(o => o.classList.remove('active'));

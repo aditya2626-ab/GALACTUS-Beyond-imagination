@@ -1,8 +1,9 @@
 /* ---------- Responsive ---------- */
 @media (max-width:960px){
-  .solar-wrap, .star-lab{ grid-template-columns:1fr; }
+  .solar-wrap, .star-lab, .gv-lab{ grid-template-columns:1fr; }
   .star-stage{ min-height:0; aspect-ratio:1; }
   .planet-card{ min-height:0; }
+  .gv-stage{ aspect-ratio:1; }
   .oc-note{ margin-left:0; text-align:left; }
 }
 @media (max-width:720px){

@@ -17,4 +17,19 @@ import { $, $$ } from './shared.js';
     }
   }), { rootMargin: '-45% 0px -50% 0px' });
   map.forEach((_, id) => { const sec = document.getElementById(id); if (sec) so.observe(sec); });
+
+  /* reading progress bar along the very top of the page */
+  const bar = document.createElement('div');
+  bar.className = 'progress-bar';
+  document.body.appendChild(bar);
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      const max = document.documentElement.scrollHeight - innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+      ticking = false;
+    });
+  }, { passive: true });
 })();

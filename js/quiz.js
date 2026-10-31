@@ -25,15 +25,24 @@ import { $, ARROW, shuffle } from './shared.js';
       ex:'A lower-mass star sheds its outer layers as a planetary nebula and leaves an Earth-sized white dwarf that slowly cools.' },
     { q:'What is the nearest large galaxy to the Milky Way?',
       a:['The Sombrero Galaxy', 'The Whirlpool Galaxy', 'Andromeda Galaxy', 'The Large Magellanic Cloud'], c:2,
-      ex:'The Andromeda Galaxy is the nearest large galaxy, 2.5 million light-years away. It is closing with us at 110 km/s.' }
+      ex:'The Andromeda Galaxy is the nearest large galaxy, 2.5 million light-years away. It is closing with us at 110 km/s.' },
+    { q:'In the Gravity Lab, a body launched at exactly half the circular speed will\u2026',
+      a:['Keep orbiting in a smaller circle', 'Fall into the star', 'Escape the star forever', 'Reverse direction'], c:1,
+      ex:'At half the circular speed, the trajectory dips inside the star\u2019s surface before it can curve around — an impact, not an orbit.' },
+    { q:'What shape is the path of a body moving at more than escape velocity?',
+      a:['A closed ellipse', 'A perfect circle', 'An open hyperbola', 'A straight line'], c:2,
+      ex:'Above escape velocity the orbit is unbound: a hyperbola. The body bends around the star once, then never returns.' },
+    { q:'Kepler\u2019s second law says a planet in an elliptical orbit moves fastest when it is\u2026',
+      a:['At aphelion, farthest out', 'At perihelion, closest in', 'Exactly halfway between', 'It never changes speed'], c:1,
+      ex:'A line to the star sweeps equal areas in equal times, so the planet must move fastest at perihelion — the gold wedge in the Gravity Lab shows this live.' }
   ];
 
-  let questions = [], i = 0, score = 0, locked = false;
+  let questions = [], i = 0, score = 0, locked = false, answers = [];
 
   const rankOf = s =>
-    s >= 6 ? ['Master Navigator', 'A flawless run. You read the sky like an atlas — now go outside and check it against the real thing.']
-    : s === 5 ? ['Apprentice Astronomer', 'One slip, but the fundamentals are firmly in place. The night sky is officially within reach.']
-    : s >= 3 ? ['Stargazer', 'Solid instincts. Revisit the chapters above and the last points will come quickly.']
+    s >= 9 ? ['Master Navigator', 'A flawless run. You read the sky like an atlas — now go outside and check it against the real thing.']
+    : s >= 7 ? ['Apprentice Astronomer', 'Only a slip or two, and the fundamentals are firmly in place. The night sky is officially within reach.']
+    : s >= 4 ? ['Stargazer', 'Solid instincts. Revisit the chapters above and the last points will come quickly.']
     : ['Grounded Dreamer', 'Everyone starts by looking up. Scroll back through the guide and try again — every answer is in there.'];
 
   function render(){
@@ -58,6 +67,7 @@ import { $, ARROW, shuffle } from './shared.js';
     const q = questions[i];
     const good = j === q.c;
     if (good) score++;
+    answers.push({ q: q.q, picked: q.a[j], truth: q.a[q.c], good });
 
     box.querySelectorAll('.q-opt').forEach((b, k) => {
       b.disabled = true;
@@ -82,13 +92,37 @@ import { $, ARROW, shuffle } from './shared.js';
 
   function results(){
     const [rank, note] = rankOf(score);
+
+    /* persist the best score; learn.js listens for the signal */
+    let best = score;
+    try {
+      best = Math.max(score, parseInt(localStorage.getItem('galactus:quizBest') || '0', 10) || 0);
+      localStorage.setItem('galactus:quizBest', String(best));
+    } catch { /* storage unavailable */ }
+    document.dispatchEvent(new CustomEvent('galactus:quiz-best'));
+
     box.innerHTML = `
-      <div class="q-meta"><span>RESULT</span><span>SCORE ${score} / ${questions.length}</span></div>
+      <div class="q-meta"><span>RESULT</span><span>SCORE ${score} / ${questions.length} · BEST ${best}</span></div>
       <div class="q-bar"><i style="width:100%"></i></div>
       <p class="q-score">${score}<span> / ${questions.length}</span></p>
       <h3 class="q-rank">${rank}</h3>
       <p class="q-note">${note}</p>
-      <button class="btn solid small" id="qAgain" type="button">Take it again</button>`;
+      <div class="q-review">
+        <p class="qr-title">REVIEW YOUR ANSWERS</p>
+        ${answers.map(a => `
+          <div class="qr-row ${a.good ? 'ok' : 'no'}">
+            <span class="qr-mark">${a.good ? ICON_OK : ICON_NO}</span>
+            <div>
+              <p class="qr-q">${a.q}</p>
+              <p class="qr-a">${a.good
+                ? a.picked
+                : `YOU: ${a.picked} — CORRECT: <b>${a.truth}</b>`}</p>
+            </div>
+          </div>`).join('')}
+      </div>
+      <div class="q-actions">
+        <button class="btn solid small" id="qAgain" type="button">Take it again</button>
+      </div>`;
     $('#qAgain').addEventListener('click', startRound);
   }
 
@@ -99,6 +133,7 @@ import { $, ARROW, shuffle } from './shared.js';
     });
     i = 0;
     score = 0;
+    answers = [];
     render();
   }
 

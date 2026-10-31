@@ -1,13 +1,10 @@
 /* ---------- 05 Glossary ---------- */
 .glossary-controls{
-  display:grid;
-  grid-template-columns: 1fr auto auto;
-  align-items:center;
-  gap:18px;
-  margin-bottom:28px;
-  flex-wrap:wrap;
+  display:flex; flex-wrap:wrap; align-items:center;
+  gap:14px 18px; margin-bottom:28px;
 }
 .gl-search-wrap{
+  flex:1 1 260px; max-width:420px;
   display:flex; align-items:center; gap:10px;
   border:1px solid var(--line); padding:11px 16px;
   background:rgba(233,228,214,.02);
@@ -35,6 +32,10 @@
 .gl-count{
   font-family:var(--mono); font-size:10.5px; letter-spacing:.14em;
   color:var(--muted); text-transform:uppercase;
+}
+#glStudyBtn.active{
+  border-color:var(--gold); color:var(--gold);
+  background:rgba(227,177,95,.08);
 }
 
 .glossary-grid{
@@ -71,6 +72,52 @@
   color:var(--gold); text-decoration:none; text-transform:uppercase;
 }
 .gl-see:hover{ color:#f2c67e; text-decoration:underline; }
+
+/* ---------- Flashcard study mode ---------- */
+.glossary-grid.flashcards{ grid-template-columns:1fr; background:none; border:0; }
+.gl-flash-deck{ max-width:640px; width:100%; margin:0 auto; display:flex; flex-direction:column; gap:18px; }
+.gl-flash{ perspective:1400px; cursor:pointer; min-height:250px; outline-offset:4px; }
+.gl-flash-inner{
+  position:relative; width:100%; min-height:250px;
+  transition:transform .5s cubic-bezier(.3,.7,.3,1); transform-style:preserve-3d;
+}
+.gl-flash.flip .gl-flash-inner{ transform:rotateY(180deg); }
+.gl-face{
+  position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border:1px solid var(--line); background:var(--bg-panel);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:16px; padding:34px; text-align:center;
+  transition:opacity .35s ease .12s, visibility .35s ease .12s;
+}
+.gl-face.back{
+  transform:rotateY(180deg); justify-content:center;
+  opacity:0; visibility:hidden;
+}
+.gl-flash.flip .gl-face.front{ opacity:0; visibility:hidden; }
+.gl-flash.flip .gl-face.back{ opacity:1; visibility:visible; }
+.gl-face.back .gl-def{ font-size:14.5px; color:var(--ink); line-height:1.75; }
+.gl-term-front{
+  font-family:var(--serif); font-weight:400; font-size:clamp(1.6rem,3vw,2.1rem);
+  letter-spacing:-.01em;
+}
+.gl-flip-hint{
+  font-family:var(--mono); font-size:8.5px; letter-spacing:.2em; color:var(--muted);
+}
+.gl-flash.mastered .gl-face.front{ border-color:rgba(227,177,95,.4); }
+.gl-flash-ctrl{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.gl-flash-btns{ display:flex; gap:10px; }
+
+/* session-complete screen */
+.gl-done{
+  border:1px solid var(--line); background:rgba(233,228,214,.015);
+  padding:clamp(28px,4vw,44px); max-width:640px; margin:0 auto;
+  text-align:left;
+}
+.gl-done .q-score{ font-size:clamp(2.6rem,6vw,3.8rem); }
+.gl-done .q-note{ margin-bottom:22px; }
+.gl-done-btns{ display:flex; gap:10px; flex-wrap:wrap; }
 
 /* ---------- 06 Did You Know ---------- */
 .dyk-wrap{

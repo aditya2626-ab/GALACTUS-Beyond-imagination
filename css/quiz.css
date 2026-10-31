@@ -41,3 +41,22 @@
 .q-rank{ font-family:var(--serif); font-style:italic; font-weight:400; font-size:1.6rem; color:var(--gold); margin-bottom:12px; }
 .q-note{ color:var(--muted); font-size:14.5px; line-height:1.7; max-width:52ch; margin-bottom:28px; }
 
+/* results review */
+.q-review{ margin-top:8px; border-top:1px solid var(--line); padding-top:18px; }
+.qr-title{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.2em;
+  color:var(--gold); margin-bottom:8px;
+}
+.qr-row{ display:flex; gap:12px; align-items:flex-start; padding:12px 0; border-bottom:1px solid var(--line); }
+.qr-row:last-child{ border-bottom:0; }
+.qr-mark{ flex:none; margin-top:3px; }
+.qr-row.ok .qr-mark{ color:var(--gold); }
+.qr-row.no .qr-mark{ color:var(--red); }
+.qr-q{ font-size:13.5px; line-height:1.5; }
+.qr-a{
+  font-family:var(--mono); font-size:10.5px; letter-spacing:.06em;
+  color:var(--muted); margin-top:4px;
+}
+.qr-a b{ color:var(--gold); font-weight:500; }
+.q-actions{ margin-top:24px; display:flex; justify-content:flex-end; }
+

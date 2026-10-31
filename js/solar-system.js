@@ -8,27 +8,43 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
   const PLANETS = [
     { name:'Mercury', type:'ROCKY WORLD', color:'#a9988b', a:.387,  size:2.4, period:.241,
       temp:'167 °C',  diameter:'4,879 km',   day:'58.6 Earth days', year:'88 Earth days',   moons:'0',
+      comp:'A huge iron core under a thin silicate shell — most of its radius is metal.',
+      atm:'Virtually none. A trace exosphere of atoms knocked off the surface by the solar wind.',
       blurb:'A scorched, cratered messenger racing around the Sun faster than any other world.' },
     { name:'Venus',   type:'ROCKY WORLD', color:'#d9b382', a:.723,  size:3.6, period:.615,
       temp:'464 °C',  diameter:'12,104 km',  day:'243 Earth days · retrograde', year:'225 Earth days', moons:'0',
+      comp:'Iron core and basaltic rock — an Earth-sized twin with a very different story.',
+      atm:'96% CO₂ at 92× Earth\u2019s surface pressure, under clouds of sulfuric acid.',
       blurb:'Earth\u2019s twin in size, wrapped in crushing clouds of acid — the hottest planet of all.' },
     { name:'Earth',   type:'ROCKY WORLD', color:'#7d9fc4', a:1,     size:3.8, period:1,
       temp:'15 °C',   diameter:'12,756 km',  day:'23.9 hours', year:'365.25 days',      moons:'1',
+      comp:'Iron core, rocky mantle, and liquid-water oceans covering 71% of the surface.',
+      atm:'78% nitrogen, 21% oxygen — the only atmosphere known to be breathable.',
       blurb:'The only world known to harbor life; a thin blue film of water and air over rock.' },
     { name:'Mars',    type:'ROCKY WORLD', color:'#c6603f', a:1.524, size:3,   period:1.881,
       temp:'\u221263 °C', diameter:'6,792 km', day:'24.6 hours', year:'687 Earth days',   moons:'2',
+      comp:'An iron-sulfur core under a dusty, rust-red crust of iron oxide.',
+      atm:'95% CO₂ but under 1% of Earth\u2019s pressure — thin enough to see the horizon through.',
       blurb:'A cold desert of rust and dust, home to the Solar System\u2019s tallest volcano.' },
     { name:'Jupiter', type:'GAS GIANT',   color:'#cfa678', a:5.203, size:8,   period:11.86,
       temp:'\u2212110 °C', diameter:'142,984 km', day:'9.9 hours', year:'11.9 Earth years', moons:'95',
+      comp:'Mostly hydrogen and helium over a possible 10–20 Earth-mass core.',
+      atm:'Ammonia clouds banded by 500+ km/h jet streams; the Great Red Spot rages among them.',
       blurb:'Heavier than every other planet combined; its Great Red Spot has raged for centuries.' },
     { name:'Saturn',  type:'GAS GIANT',   color:'#d8c494', a:9.537, size:7,   period:29.45, ring:true,
       temp:'\u2212140 °C', diameter:'120,536 km', day:'10.7 hours', year:'29.4 Earth years', moons:'146',
+      comp:'Hydrogen and helium, so puffed up its density is just 0.69 g/cm³ — it would float.',
+      atm:'Pale ammonia haze, and a strange hexagonal jet stream circling the north pole.',
       blurb:'Circled by rings of ice and rock only tens of meters thick — the Solar System\u2019s showpiece.' },
     { name:'Uranus',  type:'ICE GIANT',   color:'#9cc3c0', a:19.19, size:5,   period:84,
       temp:'\u2212195 °C', diameter:'51,118 km', day:'17.2 hours · retrograde', year:'84 Earth years', moons:'28',
+      comp:'Water, ammonia and methane ices wrapped around a small rocky core.',
+      atm:'2% methane absorbs red light, leaving the cyan color; the coldest atmosphere known.',
       blurb:'An ice giant rolling on its side, its poles taking turns facing the Sun for 42 years.' },
     { name:'Neptune', type:'ICE GIANT',   color:'#7e97c6', a:30.07, size:5,   period:164.8,
       temp:'\u2212200 °C', diameter:'49,528 km', day:'16.1 hours', year:'164.8 Earth years', moons:'16',
+      comp:'An ice giant like Uranus, but denser — with more of its mass in the icy mantle.',
+      atm:'Methane-deep blue and supersonic winds near 2,100 km/h, the fastest anywhere.',
       blurb:'The windiest world known — supersonic gales whip through its deep blue atmosphere.' }
   ];
 
@@ -66,6 +82,10 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
           ${row('Year length', pl.year)}
           ${row('Known moons', pl.moons)}
         </dl>
+        <div class="pc-blocks">
+          <div class="pc-block"><small>Inside</small><p>${pl.comp}</p></div>
+          <div class="pc-block"><small>Atmosphere</small><p>${pl.atm}</p></div>
+        </div>
         <div class="pc-nav">
           <button class="btn ghost small pc-prev" type="button">${BACK} Previous planet</button>
           <button class="btn ghost small pc-next" type="button">Next planet ${ARROW}</button>
@@ -153,6 +173,13 @@ import { $, GOLD, TAU, seeded, sizeCanvas, watchVisible, ARROW } from './shared.
   canvas.addEventListener('click', e => {
     const i = hit(e);
     if (i > -1) select(i);
+  });
+  /* the canvas advertises arrow-key cycling in its aria-label */
+  canvas.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+      e.preventDefault();
+      select((sel + (e.key === 'ArrowRight' ? 1 : -1) + p.length) % p.length);
+    }
   });
   card.addEventListener('click', e => {
     if (e.target.closest('.pc-prev')) select((sel - 1 + p.length) % p.length);

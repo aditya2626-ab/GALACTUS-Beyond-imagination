@@ -1,8 +1,0 @@
-/* ---------- Footer ---------- */
-footer{ border-top:1px solid var(--line); }
-.foot-inner{
-  max-width:1200px; margin:0 auto; padding:34px clamp(20px,5vw,56px);
-  display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap;
-  font-family:var(--mono); font-size:10px; letter-spacing:.12em; color:var(--muted);
-}
-

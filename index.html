@@ -1,375 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galactus</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='100' height='100' rx='14' fill='%23101418'/%3E%3Cg transform='translate(7 7) scale(0.25)'%3E%3Cpath d='M147.28 63.06A60 60 0 1 0 160 100L124 100' fill='none' stroke='%23F2EFE6' stroke-width='17' stroke-linejoin='round'/%3E%3Ccircle cx='156.7' cy='80.5' r='6' fill='%23E8B54A'/%3E%3Cpath d='M100 85Q102.9 97.1 115 100Q102.9 102.9 100 115Q97.1 102.9 85 100Q97.1 97.1 100 85Z' fill='%23E8B54A'/%3E%3C/g%3E%3C/svg%3E">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151b">
+  <meta name="description" content="A curious field guide to the observable universe.">
+  <title>Orbit — a field guide to space</title>
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/home.css">
+  <script type="module" src="js/home.js"></script>
 </head>
 <body>
-
-  <nav class="nav">
-    <a class="brand" href="#top">
-      <svg class="logo-anim" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="30" height="30" aria-hidden="true">
-        <path id="gOrbit" fill="none" stroke="none"
-              d="M160 100A60 60 0 0 0 100 40A60 60 0 0 0 40 100A60 60 0 0 0 100 160A60 60 0 0 0 160 100"/>
-        <path class="logo-ring" pathLength="1"
-              d="M147.28 63.06A60 60 0 1 0 160 100L124 100"
-              fill="none" stroke="currentColor" stroke-width="17" stroke-linejoin="round"/>
-        <g class="logo-planet">
-          <circle r="6" fill="#E8B54A"/>
-          <animateMotion dur="16s" repeatCount="indefinite">
-            <mpath href="#gOrbit" xlink:href="#gOrbit"/>
-          </animateMotion>
-        </g>
-        <path class="logo-star"
-              d="M100 85Q102.9 97.1 115 100Q102.9 102.9 100 115Q97.1 102.9 85 100Q97.1 97.1 100 85Z"
-              fill="#E8B54A"/>
-      </svg>
-      GALACTUS
-    </a>
-    <div class="nav-links">
-      <a href="#solar"><span>01</span>Solar System</a>
-      <a href="#stars"><span>02</span>Lives of Stars</a>
-      <a href="#scale"><span>03</span>Cosmic Scale</a>
-      <a href="#gravity"><span>04</span>Gravity Lab</a>
-      <a href="#facts"><span>05</span>Facts</a>
-      <a href="#glossary"><span>06</span>Glossary</a>
-      <a href="#quiz"><span>07</span>Quiz</a>
-    </div>
-    <span class="nav-progress" id="navProgress" aria-live="polite"></span>
-  </nav>
-
-  <!-- ============ HERO ============ -->
-  <header class="hero" id="top">
-    <canvas id="sky" aria-hidden="true"></canvas>
-    <div class="hero-inner">
-      <p class="kicker">AN INTERACTIVE FIELD GUIDE OF ASTRONOMY</p>
-      <h1>Find your place<br><em>among the stars.</em></h1>
-      <p class="lede">Four guided chapters in applied curiosity: race the planets around the Sun,
-        grow a star from a cloud of dust and watch how it dies, drag yourself to the
-        edge of the observable universe, then launch your own orbits in the gravity lab —
-        with a glossary and a quiz to keep you honest.</p>
-      <div class="hero-cta">
-        <a class="btn solid" href="#solar">Begin with the Solar System
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
-        <a class="btn ghost" href="#quiz">Jump to the quiz</a>
-      </div>
-      <div class="hero-data">
-        <span><b data-count="13.8" data-decimals="1">13.8</b>&nbsp;BN&nbsp;YEARS OF TIME</span>
-        <span><b data-count="2">2</b>&nbsp;TN&nbsp;GALAXIES</span>
-        <span><b data-count="8">8</b>&nbsp;PLANETS</span>
-        <span><b data-count="1">1</b>&nbsp;YOU</span>
-      </div>
-      <div class="hero-progress" id="heroProgress"></div>
-    </div>
-    <div class="hero-hint">
-      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3v18M3 12h18M12 3l-2.5 2.5M12 3l2.5 2.5M12 21l-2.5-2.5M12 21l2.5-2.5M3 12l2.5-2.5M3 12l2.5 2.5M21 12l-2.5-2.5M21 12l-2.5 2.5"/></svg>
-      MOVE ACROSS THE SKY — NEARBY STARS WILL LINK INTO CONSTELLATIONS
-    </div>
+  <header class="topbar">
+    <a class="wordmark" href="index.html"><span class="mark">✳</span> orbit <small>FIELD NOTES ON SPACE</small></a>
+    <nav><a href="#map">Cosmic map</a><a href="#facts">Field notes</a><a class="nav-cta" href="course.html">Explore the course <span>↗</span></a></nav>
   </header>
-
   <main>
-    <!-- ============ 01 SOLAR SYSTEM ============ -->
-    <section class="section" id="solar">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">01</span><span class="rule"></span><span class="sec-tag">Chapter One</span></div>
-        <h2>The Solar System</h2>
-        <p class="sec-sub">Eight worlds and one ordinary yellow dwarf. Watch Mercury lap the Sun
-          while Neptune barely creeps along its orbit — the period of every planet is proportional.
-          Click any planet to open its dossier.</p>
-        <div class="objectives">
-          <span class="obj-label">WHAT YOU'LL LEARN</span>
-          <ul>
-            <li>Why orbits hold instead of falling</li>
-            <li>How distance sets the length of a year</li>
-            <li>What separates rocky worlds from giants</li>
-          </ul>
-        </div>
+    <section class="intro" id="top">
+      <div class="intro-copy">
+        <p class="eyebrow">A SMALL GUIDE TO A VERY BIG PLACE</p>
+        <h1>Space is vast.<br><em>Start somewhere.</em></h1>
+        <p class="lede">A curious, hands-on tour from our little blue world to the edge of what we can see. No telescope required.</p>
+        <a class="button" href="#map">Take a look around <span>↓</span></a>
+        <span class="margin-note">NO WRONG WAY<br>TO LOOK UP</span>
       </div>
-      <div class="solar-wrap reveal" style="--d:.08s">
-        <div class="orbit-stage">
-          <span class="canvas-hint">CLICK A PLANET FOR ITS DOSSIER</span>
-          <canvas id="orbits" tabindex="0"
-                  aria-label="Orbital map of the Solar System. Use the left and right arrow keys to cycle through the planets."></canvas>
-        </div>
-        <aside class="planet-card" id="planetCard" aria-live="polite"></aside>
-      </div>
-      <div class="orbit-controls reveal" style="--d:.16s">
-        <button class="icon-btn" id="playBtn" type="button" aria-label="Pause orbits">
-          <svg class="i-pause" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><rect x="6" y="4.5" width="4" height="15" rx="1"/><rect x="14" y="4.5" width="4" height="15" rx="1"/></svg>
-          <svg class="i-play" viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>
-        </button>
-        <span class="oc-lab">ORBITAL SPEED</span>
-        <input type="range" id="speedRange" min="0.2" max="5" step="0.1" value="1" aria-label="Orbital speed">
-        <span class="oc-read" id="speedOut">1.0×</span>
-        <span class="oc-note">DISTANCES COMPRESSED (r ∝ a^0.4) · PLANET SIZES EXAGGERATED · PERIODS PROPORTIONAL</span>
-      </div>
-      <details class="recap reveal" style="--d:.2s">
-        <summary><span class="recap-tag">KEY TAKEAWAYS</span><span class="recap-hint">CLICK TO EXPAND</span></summary>
-        <ul>
-          <li>An orbit is a balance: constant forward motion against gravity's constant inward pull.</li>
-          <li>Kepler's third law: the squared period grows with the cubed distance — inner worlds race, outer worlds crawl.</li>
-          <li>Four small rocky worlds orbit close in; four giants of gas and ice orbit far out. The map compresses distances (r ∝ a<sup>0.4</sup>) so both fit on one screen.</li>
-          <li>Nothing about a planet's year is random — set the distance, and the period follows.</li>
-        </ul>
-        <button class="btn ghost small mark-btn" data-ch="solar" type="button" aria-pressed="false">Mark chapter complete</button>
-      </details>
-      <a class="next-ch reveal" href="#stars"><b>NEXT</b>LIVES OF STARS
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="moon-art" aria-hidden="true"><div class="moon"></div><span class="moon-label">one pale blue dot, give or take</span></div>
     </section>
-
-    <!-- ============ 02 LIVES OF STARS ============ -->
-    <section class="section" id="stars">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">02</span><span class="rule"></span><span class="sec-tag">Chapter Two</span></div>
-        <h2>Lives of Stars</h2>
-        <p class="sec-sub">Every star is a story told by gravity, and the ending was written at birth.
-          Choose a birth mass below and trace the whole biography — from cold dust to whatever remains.</p>
-        <div class="objectives">
-          <span class="obj-label">WHAT YOU'LL LEARN</span>
-          <ul>
-            <li>Why mass decides a star's fate</li>
-            <li>How the Sun will die</li>
-            <li>What white dwarfs, neutron stars and black holes are</li>
-          </ul>
-        </div>
+    <section class="map-section" id="map">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / THE BIG PICTURE</p><h2>Take a closer look</h2></div>
+        <p>Move between scales, then pick a world, observatory, or mission to open its field note.</p>
       </div>
-      <div class="star-lab reveal" style="--d:.08s">
-        <div class="star-stage">
-          <canvas id="starCanvas"></canvas>
+      <div class="map-toolbar">
+        <div class="zoom-controls" aria-label="Map zoom controls">
+          <button id="zoom-out" type="button" aria-label="Zoom out">−</button>
+          <span id="zoom-level">1×</span>
+          <button id="zoom-in" type="button" aria-label="Zoom in">+</button>
         </div>
-        <div class="star-panel">
-          <div class="sp-block">
-            <div class="sp-label"><span>CHOOSE A STAR'S BIRTH MASS</span><span id="massOut">—</span></div>
-            <input type="range" id="massRange" min="0" max="100" step="0.5" value="38.4" aria-label="Stellar mass in solar masses">
-            <div class="sp-hint"><span>0.1 M☉</span><span>LOGARITHMIC SCALE</span><span>40 M☉</span></div>
-            <p class="mass-note" id="massNote">This chooses one star to follow. Its mass controls how hot it is, how long it shines, and what it becomes.</p>
-          </div>
-          <div class="sp-stats">
-            <div class="sp-stat"><small>Surface temperature</small><span id="stTemp">—</span></div>
-            <div class="sp-stat"><small>Luminosity</small><span id="stLum">—</span></div>
-            <div class="sp-stat"><small>Main-sequence lifetime</small><span id="stLife">—</span></div>
-            <div class="sp-stat"><small>Predicted remnant</small><span id="stRem">—</span></div>
-          </div>
-          <div class="sp-block">
-            <div class="sp-label"><span>STELLAR LIFECYCLE</span><span>SELECT A STAGE</span></div>
-            <div class="stages" id="stageNodes">
-              <button class="stage" type="button"><i></i><span>Nebula</span></button>
-              <button class="stage" type="button"><i></i><span>Protostar</span></button>
-              <button class="stage" type="button"><i></i><span>Main sequence</span></button>
-              <button class="stage" type="button"><i></i><span>Red giant</span></button>
-              <button class="stage" type="button"><i></i><span>Remnant</span></button>
-            </div>
-            <p class="stage-note">These stages describe the star selected above. Select one to inspect it, or play the sequence from beginning to end.</p>
-            <p id="stageDesc"></p>
-            <button class="btn ghost small" id="traceBtn" type="button" aria-pressed="false"><span id="traceLabel">Play lifecycle</span>
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-            </button>
-          </div>
-        </div>
+        <div class="scene-nav" id="scene-nav" aria-label="Choose a map scale"></div>
       </div>
-      <details class="recap reveal" style="--d:.16s">
-        <summary><span class="recap-tag">KEY TAKEAWAYS</span><span class="recap-hint">CLICK TO EXPAND</span></summary>
-        <ul>
-          <li>Mass is destiny: it sets a star's temperature, brightness, lifetime, and death — all from one number.</li>
-          <li>More massive stars live shorter lives. They burn their fuel far faster: a 10 M☉ star lasts ~30 million years; the Sun, 10 billion.</li>
-          <li>Below about 8 M☉, a star ends as a white dwarf. Above it: supernova, leaving a neutron star — or, past ~20 M☉, a black hole.</li>
-          <li>Try the same stage at different masses above and watch the story change.</li>
-        </ul>
-        <button class="btn ghost small mark-btn" data-ch="stars" type="button" aria-pressed="false">Mark chapter complete</button>
-      </details>
-      <a class="next-ch reveal" href="#scale"><b>NEXT</b>THE COSMIC SCALE
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="map-layout">
+        <div class="universe">
+          <canvas id="universe" aria-label="Interactive map of space objects. Use the buttons below to select a place or mission."></canvas>
+          <span class="map-caption" id="map-caption"></span>
+        </div>
+        <aside class="object-card" id="object-card" aria-live="polite"></aside>
+      </div>
+      <div class="landmark-list" id="landmarks" aria-label="Places and missions in this view"></div>
+      <div class="timeline">
+        <p class="eyebrow">A FEW MOMENTS IN OUR COSMIC STORY</p>
+        <div class="timeline-track" id="timeline"></div>
+      </div>
     </section>
-
-    <!-- ============ 03 COSMIC SCALE ============ -->
-    <section class="section" id="scale">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">03</span><span class="rule"></span><span class="sec-tag">Chapter Three</span></div>
-        <h2>The Cosmic Scale</h2>
-        <p class="sec-sub">Astronomical distances break human intuition, so this ruler is logarithmic.
-          Drag the marker: every step to the right multiplies your distance from Earth by ten.</p>
-        <div class="objectives">
-          <span class="obj-label">WHAT YOU'LL LEARN</span>
-          <ul>
-            <li>How to read a logarithmic ruler</li>
-            <li>Why looking far away is looking back in time</li>
-            <li>The true size of the observable universe</li>
-          </ul>
-        </div>
+    <section class="facts-section" id="facts">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / FIELD NOTES</p><h2>Little things, big universe</h2></div>
+        <button class="text-button" id="another-fact" type="button">One more fact ↻</button>
       </div>
-      <div class="ladder-wrap reveal" style="--d:.08s">
-        <span class="canvas-hint">DRAG THE MARKER — EACH STEP IS ×10</span>
-        <canvas id="ladder"></canvas>
-      </div>
-      <div class="ladder-readout reveal" style="--d:.14s">
-        <div class="lr-cell"><small>DISTANCE FROM EARTH</small><span id="ladderDist">—</span></div>
-        <div class="lr-cell"><small>NEAREST LANDMARK</small><span id="ladderLandmark">—</span></div>
-      </div>
-      <p class="ladder-fact reveal" id="ladderFact" style="--d:.2s"></p>
-      <details class="recap reveal" style="--d:.26s">
-        <summary><span class="recap-tag">KEY TAKEAWAYS</span><span class="recap-hint">CLICK TO EXPAND</span></summary>
-        <ul>
-          <li>Each step to the right on this ruler is ×10 — the only way a human-readable chart can hold the Moon and the observable universe at once.</li>
-          <li>Distance equals lookback time: seeing Andromeda means seeing light that left 2.5 million years ago.</li>
-          <li>The nearest star is 4.24 light-years away — with current spacecraft, that journey takes tens of thousands of years.</li>
-          <li>The observable universe is 46.5 billion light-years in radius; beyond that, light simply hasn't had time to reach us.</li>
-        </ul>
-        <button class="btn ghost small mark-btn" data-ch="scale" type="button" aria-pressed="false">Mark chapter complete</button>
-      </details>
-      <a class="next-ch reveal" href="#gravity"><b>NEXT</b>THE GRAVITY LAB
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <article class="fact-card">
+        <span class="fact-index" id="fact-index">NOTE 01</span>
+        <p id="fact-text" aria-live="polite"></p><span class="fact-doodle" aria-hidden="true">✳</span>
+      </article>
     </section>
-
-<!-- ============ 04 GRAVITY LAB ============ -->
-    <section class="section" id="gravity">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">04</span><span class="rule"></span><span class="sec-tag">Chapter Four</span></div>
-        <h2>The Gravity Lab</h2>
-        <p class="sec-sub">Every ellipse, comet, and escape trajectory comes from one law. Press on the
-          canvas, drag to aim, and release to launch a body around the star — a dashed line predicts the
-          full trajectory before you let go. Watch the gold wedge behind the selected body sweep equal
-          areas in equal times, and try the presets to see each orbit family.</p>
-        <div class="objectives">
-          <span class="obj-label">WHAT YOU'LL LEARN</span>
-          <ul>
-            <li>How one law makes circles, ellipses and escapes</li>
-            <li>Why comets speed up near the Sun</li>
-            <li>How to read an orbit's apsides</li>
-          </ul>
-        </div>
-      </div>
-      <div class="gv-lab reveal" style="--d:.08s">
-        <div class="gv-stage">
-          <span class="canvas-hint">DRAG TO AIM · RELEASE TO LAUNCH · TAP A BODY TO SELECT</span>
-          <canvas id="gvCanvas" aria-label="Orbit simulator. Drag to launch bodies around the star."></canvas>
-        </div>
-        <aside class="gv-panel">
-          <div class="gv-stats">
-            <div class="gv-stat"><small>Current speed</small><span id="gvSpeed">—</span></div>
-            <div class="gv-stat"><small>Distance to star</small><span id="gvDist">—</span></div>
-            <div class="gv-stat"><small>Orbit shape</small><span id="gvShape">—</span></div>
-            <div class="gv-stat"><small>Period</small><span id="gvPeriod">—</span></div>
-            <div class="gv-stat"><small>Perihelion</small><span id="gvPeri">—</span></div>
-            <div class="gv-stat"><small>Aphelion</small><span id="gvApo">—</span></div>
-          </div>
-          <div class="sp-block">
-            <div class="sp-label"><span>ORBIT FAMILIES</span><span>ONE LAW, MANY FATES</span></div>
-            <div class="gv-presets" id="gvPresets">
-              <button class="btn ghost small" data-p="circular" type="button">Circular</button>
-              <button class="btn ghost small" data-p="ellipse" type="button">Ellipse</button>
-              <button class="btn ghost small" data-p="comet" type="button">Comet</button>
-              <button class="btn ghost small" data-p="escape" type="button">Escape</button>
-              <button class="btn ghost small" id="gvClear" type="button" style="grid-column:span 2">Clear all</button>
-            </div>
-            <p class="mass-note">Slow launches fall straight into the star. Near the circular speed
-              (√½× escape) they close into ellipses; at escape velocity the trajectory opens into a
-              hyperbola and the body never returns. The same law produces every one of these fates.</p>
-          </div>
-        </aside>
-      </div>
-      <details class="recap reveal" style="--d:.16s">
-        <summary><span class="recap-tag">KEY TAKEAWAYS</span><span class="recap-hint">CLICK TO EXPAND</span></summary>
-        <ul>
-          <li>One inverse-square law produces every orbit shape — circles, ellipses, parabolas, hyperbolas. Launch speed picks the fate.</li>
-          <li>Below circular speed, the body falls into the star. Near circular speed it closes into an ellipse. At escape velocity (√2× circular) it leaves forever on a hyperbola.</li>
-          <li>Kepler's second law, live: the gold wedge sweeps equal areas in equal times, so bodies move fastest at perihelion — that's why comets sprint past the Sun.</li>
-          <li>A single state vector — position plus velocity — determines the entire orbit. That's what the readouts compute.</li>
-        </ul>
-        <button class="btn ghost small mark-btn" data-ch="gravity" type="button" aria-pressed="false">Mark chapter complete</button>
-      </details>
-      <a class="next-ch reveal" href="#facts"><b>NEXT</b>DID YOU KNOW?
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-<!-- ============ 05 DID YOU KNOW ============ -->
-    <section class="section" id="facts">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">05</span><span class="rule"></span><span class="sec-tag">Interlude</span></div>
-        <h2>Did You Know?</h2>
-        <p class="sec-sub">Short, strange, and true. Flip through the fact deck — it shuffles on every
-          visit, so see how many you already knew from the chapters above.</p>
-      </div>
-      <div class="dyk-wrap reveal" style="--d:.08s">
-        <div class="dyk-card" id="dykCard">
-          <span class="dyk-tag">DID YOU KNOW</span>
-          <p class="dyk-text" id="dykText"></p>
-          <div class="dyk-controls">
-            <span class="dyk-counter" id="dykCounter">01 / 12</span>
-            <div class="dyk-btns">
-              <button class="icon-btn" id="dykPrev" type="button" aria-label="Previous fact">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
-              </button>
-              <button class="icon-btn" id="dykShuffle" type="button" aria-label="Shuffle facts">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20L21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
-              </button>
-              <button class="icon-btn" id="dykNext" type="button" aria-label="Next fact">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <a class="next-ch reveal" href="#glossary" style="--d:.14s"><b>NEXT</b>ASTRONOMY GLOSSARY
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </section>
-
-<!-- ============ 06 GLOSSARY ============ -->
-    <section class="section" id="glossary">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">06</span><span class="rule"></span><span class="sec-tag">Reference</span></div>
-        <h2>Astronomy Glossary</h2>
-        <p class="sec-sub">Every term used in the chapters above, with a one-paragraph definition
-          and a link back to where it appears. Filter by topic with the chips, search to narrow the
-          list — or switch on flashcard mode and test yourself. Terms you mark as known are
-          remembered in this browser.</p>
-      </div>
-
-      <div class="glossary-controls reveal" style="--d:.08s">
-        <div class="gl-search-wrap">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-          <input type="search" id="glossarySearch" placeholder="Search terms…"
-                 aria-label="Search glossary" autocomplete="off" spellcheck="false">
-        </div>
-        <div class="gl-filters" id="glossaryFilters">
-          <button class="gl-chip active" data-cat="All" type="button">All</button>
-          <button class="gl-chip" data-cat="Stellar" type="button">Stars</button>
-          <button class="gl-chip" data-cat="Planetary" type="button">Planets</button>
-          <button class="gl-chip" data-cat="Cosmology" type="button">Cosmology</button>
-          <button class="gl-chip" data-cat="Tools" type="button">Tools</button>
-          <button class="gl-chip" data-cat="Mechanics" type="button">Mechanics</button>
-        </div>
-        <span class="gl-count" id="glossaryCount"></span>
-        <button class="btn ghost small" id="glStudyBtn" type="button" aria-pressed="false">Flashcard mode</button>
-      </div>
-
-      <div class="glossary-grid reveal" id="glossaryGrid" style="--d:.14s"></div>
-    </section>
-
-    <!-- ============ 07 QUIZ ============ -->
-    <section class="section" id="quiz">
-      <div class="section-head reveal">
-        <div class="head-rule"><span class="sec-no">07</span><span class="rule"></span><span class="sec-tag">Self-Test</span></div>
-        <h2>Test Your Bearing</h2>
-        <p class="sec-sub">Nine questions, no trick answers — only things you've just read. Rank yourself honestly.</p>
-      </div>
-      <div class="quiz-box reveal" id="quizBox" style="--d:.08s"></div>
+    <section class="course-callout">
+      <p class="eyebrow">READY TO FOLLOW A THREAD?</p>
+      <h2>Build the picture, one idea at a time.</h2>
+      <p>Short lessons, useful questions, and a few ways to test what stuck.</p>
+      <a class="button" href="course.html">Visit the learning room <span>↗</span></a>
     </section>
   </main>
-
-  <footer>
-    <div class="foot-inner">
-      <span>GALACTUS · AN INTERACTIVE FIELD GUIDE OF ASTRONOMY</span>
-      <span>DISTANCES COMPRESSED · MASSES TO SCALE · CURIOSITY UNSCALED</span>
-    </div>
-  </footer>
-
-  <script type="module" src="script.js"></script>
+  <footer><a class="wordmark" href="#top">✳ orbit</a><span>Made for the joy of looking up.</span><span>LOCAL FIELD GUIDE · 01</span></footer>
 </body>
 </html>

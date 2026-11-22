@@ -1,0 +1,46 @@
+.hero-planet { animation:none; transform:translate3d(var(--parallax-x,0px),calc(-50% + var(--parallax-y,0px)),0); transition:transform .35s var(--ease); }
+.hero-planet img { animation:planet-shift 55s ease-in-out infinite alternate; }
+@keyframes planet-shift { from { transform:scale(1) rotate(-1deg); } to { transform:scale(1.035) rotate(1deg); } }
+.scene-nav button,.landmark-list button,.zoom-controls button { transition:transform .2s var(--ease),color .2s,border-color .2s,background .2s; }
+.scene-nav button:hover,.landmark-list button:hover { transform:translateY(-2px); }
+.fact-card { transition:border-color .25s,transform .25s var(--ease); }
+.fact-card:hover { transform:translateY(-3px); border-color:#e8b86366; }
+.timeline-track { scroll-behavior:smooth; }
+@media(prefers-reduced-motion:reduce) { .hero-planet,.hero-planet img,.planet-halo,.float-head i,.mission-gauge::after { animation:none!important; transition:none!important; } }
+@media(max-height:700px) and (max-width:680px) {
+  .hero { padding-top:78px; padding-bottom:55px; }
+  .hero-copy h1 { font-size:42px; }
+  .hero-copy .lede { max-width:350px; font-size:12px; margin-bottom:16px; }
+  .hero-actions { margin-bottom:14px; }
+  .hero-floats { bottom:94px; width:70vw; }
+  .hero-gauge-wrap { display:none; }
+  .atlas-section { padding-top:69px; padding-bottom:46px; }
+  .atlas-section>.section-heading h2 { font-size:26px; }
+  .map-layout { min-height:0; }
+  .landmark-list { margin-top:4px; margin-bottom:5px; }
+  .timeline { padding-top:5px; }
+  .time-point { min-height:51px; }
+  .notes-section { padding-top:72px; padding-bottom:48px; }
+  .notes-art,.notes-art img { min-height:0; }
+  .notes-art p { bottom:52px; font-size:15px; }
+}
+
+/* The source Mars artwork has a black JPEG background; screen blend and feather its edge into space. */
+.hero-planet img { border-radius:50%; mix-blend-mode:screen; filter:none; -webkit-mask-image:radial-gradient(ellipse at center,#000 59%,rgba(0,0,0,.92) 72%,transparent 100%); mask-image:radial-gradient(ellipse at center,#000 59%,rgba(0,0,0,.92) 72%,transparent 100%); }
+/* Final responsive overrides keep older layout rules from forcing oversized panels. */
+@media(max-width:900px) { .hero { padding-top:clamp(104px,14vh,136px); } }
+@media(max-width:680px) {
+  .universe,.universe canvas { min-height:0; }
+  .notes-art,.notes-art img { min-height:0; }
+  .hero-planet { width:112vw; right:-35%; }
+}
+.notes-section { grid-template-rows:auto minmax(0,1fr); }
+.notes-art { align-self:center; height:auto; min-height:0; }
+.notes-art img { min-height:0; }
+@media(max-width:680px) {
+  .notes-section { grid-template-rows:auto minmax(0,1fr); align-items:stretch; }
+  .notes-section>.section-heading { align-self:start; }
+  .fact-card { height:auto; min-height:0; align-self:stretch; }
+  .notes-art { grid-row:1 / span 2; align-self:stretch; height:auto; min-height:0; }
+  .notes-art img { height:100%; min-height:0; }
+}

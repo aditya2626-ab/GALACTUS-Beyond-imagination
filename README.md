@@ -1,19 +1,19 @@
-# Orbit — field notes on space
+# GALACTUS — Astronomy Field Guide
 
-A static astronomy learning site built with HTML, CSS, and browser JavaScript modules. It runs directly from Python's local HTTP server and needs no build step.
+A compact astronomy learning site made with plain HTML, CSS, JavaScript modules, and local image assets. It uses no framework or build step.
 
 ## Run locally
 
 From this folder, run `python -m http.server 8000`, then open `http://localhost:8000`.
 
-## Structure
+## Project structure
 
-- `index.html` — zoomable cosmic map, mission notes, timeline, and field facts.
-- `course.html` — four lessons and the interactive understanding check.
-- `css/base.css` — shared theme, navigation, and common components.
-- `css/home.css`, `css/course.css` — page layouts and responsive styles.
-- `js/data.js` — facts and lesson text.
-- `js/universe-data.js` — objects and missions for each map scale.
-- `js/home.js`, `js/universe.js`, `js/course.js` — page interactions.
+- `index.html` — overview, four-scale cosmic atlas, selectable worlds and missions, timeline, and field notes.
+- `course.html` — six astronomy modules and an interactive understanding check.
+- `css/base.css`, `css/home.css`, `css/course.css`, `css/motion.css` — shared design system, viewport layouts, and transitions.
+- `js/course-data.js` — curated lesson notes adapted from the Downloads workspace.
+- `js/universe-data.js` — map objects and missions at four scales.
+- `js/data.js`, `js/home.js`, `js/universe.js`, `js/course.js` — field facts, timeline, map drawing, and learning activities.
+- `assets/` — Galactus marks and astronomy visuals from the static build.
 
-Each page loads only the JavaScript modules it needs. All source files are kept below the 150-line project limit.
+Every HTML, CSS, and JavaScript source file stays below 150 lines. The content is adapted from `Downloads/workspace-38ffb681-74d8-4709-b6ed-7a3bac4575c4/download/galactus-static` and trimmed to the college-project scope.

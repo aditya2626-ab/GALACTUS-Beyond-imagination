@@ -65,6 +65,7 @@ function drawMap() {
     ctx.globalAlpha = 1;
     ctx.fillStyle = '#e9e6da';
     ctx.font = '11px "DM Mono", monospace';
+    ctx.textAlign = xRatio > .72 ? 'right' : 'left';
     ctx.fillText(name, x + (xRatio > .72 ? -12 : 12), y - 10);
   });
 }

@@ -1,10 +1,8 @@
 
 .tl-row { display:flex; align-items:center; gap:11px; padding:13px 14px; border:1px solid var(--line); border-radius:13px; background:var(--glass); transition:.2s; }
-.tl-row.dragging { opacity:.45; }
-.tl-row.over { border-color:#e8b86388; background:rgba(232,184,99,.08); }
 .tl-row.right { border-color:rgba(188,212,154,.65); background:rgba(188,212,154,.1); }
 .tl-row.wrong { border-color:rgba(216,90,60,.6); background:rgba(216,90,60,.09); }
-.tl-grip { cursor:grab; color:var(--dim); border:0; background:none; font-size:15px; padding:2px 4px; touch-action:none; }
+.tl-position { flex:none; width:26px; color:var(--amber); font:9px var(--mono); letter-spacing:.06em; }
 .tl-row .tl-text { flex:1; min-width:0; }
 .tl-row .tl-text b { display:block; color:var(--ink); font:500 13px/1.4 var(--sans); letter-spacing:-.02em; }
 .tl-row .tl-text span { display:block; color:var(--muted); font-size:11px; line-height:1.55; margin-top:4px; }

@@ -8,16 +8,6 @@ export const facts = [
   'Pluto was reclassified as a dwarf planet in 2006 by the International Astronomical Union.',
   'The cosmic microwave background is a faint glow from when the universe became transparent to light.'
 ];
-export const timeline = [
-  ['~13.8 BYA', 'The Big Bang — the universe begins in a hot, dense state.'],
-  ['~4.6 BYA', 'The Solar System forms from a cloud of gas and dust.'],
-  ['1609 · GALILEO', 'Turns a telescope toward the night sky.'],
-  ['1687 · NEWTON', 'Publishes the law of universal gravitation.'],
-  ['1924 · HUBBLE', 'Finds that Andromeda lies beyond the Milky Way.'],
-  ['1969 · APOLLO 11', 'Humans walk on the Moon.'],
-  ['1990 · HUBBLE', 'The Hubble Space Telescope launches.'],
-  ['2021 · JWST', 'Webb begins observing the early universe.']
-];
 export const tasks = [
   { type: 'order', title: 'Put a star’s early life in order', items: ['A cloud of gas and dust gathers under gravity', 'Hydrogen fusion begins in the core', 'A stable main-sequence star shines'], answer: [0, 1, 2], explain: 'Gravity gathers the cloud first. As the core heats, fusion begins and the star enters its main-sequence stage.' },
   { type: 'match', title: 'Match each spacecraft role with its job', pairs: [['Moves across a planetary surface', 'Rover'], ['Circles a world to map or study it', 'Orbiter'], ['Investigates space or flies past a target', 'Probe']], options: ['Rover', 'Orbiter', 'Probe'], explain: 'A rover lands and moves; an orbiter circles a world; a probe investigates a target or its surroundings.' },

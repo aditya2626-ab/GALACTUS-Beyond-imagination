@@ -1,4 +1,4 @@
-import { facts, timeline } from './data.js';
+import { facts } from './data.js';
 import './universe.js';
 
 let lastFact = -1;
@@ -10,9 +10,6 @@ document.querySelector('#another-fact').addEventListener('click', () => {
   document.querySelector('#fact-index').textContent = `NOTE ${String(next + 1).padStart(2, '0')} / 08`;
 });
 document.querySelector('#another-fact').click();
-document.querySelector('#timeline').innerHTML = timeline.map(([date, event]) =>
-  `<article class="time-point"><strong>${date}</strong><span>${event}</span></article>`).join('');
-
 const sections = document.querySelectorAll('.view-section');
 const reveal = new IntersectionObserver(entries => entries.forEach(entry => {
   if (entry.isIntersecting) { entry.target.classList.add('is-entered'); reveal.unobserve(entry.target); }

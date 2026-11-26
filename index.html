@@ -5,7 +5,7 @@
   <meta name="theme-color" content="#08090e">
   <meta name="description" content="A field guide to the universe: map cosmic scales, read field notes, and explore astronomy lessons.">
   <title>GALACTUS — Astronomy Field Guide</title>
-  <link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/motion.css">
+  <link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/home.css"><link rel="stylesheet" href="css/motion.css"><link rel="stylesheet" href="css/consistency.css"><link rel="stylesheet" href="css/index-section-layout.css">
   <script type="module" src="js/home.js"></script>
 </head>
 <body>
@@ -37,12 +37,11 @@
       <div class="atlas-tools"><div class="zoom-controls" aria-label="Map zoom"><button id="zoom-out" type="button" aria-label="Zoom out">−</button><span id="zoom-level">1×</span><button id="zoom-in" type="button" aria-label="Zoom in">+</button></div><div class="scene-nav" id="scene-nav" aria-label="Map scales"></div></div>
       <div class="map-layout"><div class="universe"><canvas id="universe" aria-label="Interactive cosmic map. Select a labeled object or use the map scale buttons."></canvas><span class="map-caption" id="map-caption"></span><span class="map-coordinate">SKY MAP · DISTANCES COMPRESSED</span></div><aside class="object-card" id="object-card" aria-live="polite"></aside></div>
       <div class="landmark-list" id="landmarks" aria-label="Places and missions in this view"></div>
-      <div class="timeline"><div class="timeline-title"><p class="eyebrow">A SHORT HISTORY OF LOOKING UP</p><p>Each date is another way we learned to read the sky.</p></div><div class="timeline-track" id="timeline"></div></div>
     </section>
     <section class="notes-section view-section" id="field-notes">
-      <div class="section-heading"><div><p class="eyebrow">02 / FIELD NOTES</p><h2>Small facts.<br><em>Huge distances.</em></h2></div><button class="text-button" id="another-fact" type="button">Shuffle a fact ↻</button></div>
-      <article class="fact-card"><span class="fact-index" id="fact-index">NOTE 01 / 08</span><p id="fact-text" aria-live="polite"></p><span class="fact-mark" aria-hidden="true">✳</span></article>
-      <div class="notes-art"><img src="assets/visual-nebula.png" alt="A glowing nebula where stars are forming"><p>Stars begin in clouds of gas and dust.<br><span>Next stop: the learning room.</span></p><a class="button outline" href="course.html">Explore six learning modules <span>↗</span></a><a class="button outline" href="games.html">Play the arcade <span>↗</span></a></div>
+      <div class="notes-copy"><div class="section-heading"><div><p class="eyebrow">02 / FIELD NOTES</p><h2>Small facts.<br><em>Huge distances.</em></h2></div><button class="text-button" id="another-fact" type="button">Shuffle a fact ↻</button></div>
+      <article class="fact-card"><span class="fact-index" id="fact-index">NOTE 01 / 08</span><p id="fact-text" aria-live="polite"></p><span class="fact-mark" aria-hidden="true">✳</span></article></div>
+      <div class="notes-art"><img src="assets/visual-nebula.png" alt="A glowing nebula where stars are forming"><p>Stars begin in clouds of gas and dust.<br><span>Next stop: the learning room.</span></p><div class="notes-actions"><a class="button outline" href="course.html">Explore the course <span>↗</span></a><a class="button outline" href="games.html">Play the arcade <span>↗</span></a></div></div>
     </section>
   </main>
   <footer><a class="wordmark" href="#top"><img src="assets/galactus-mark.webp" alt="" width="24" height="24"><span>GALACTUS</span></a><span>Made for the joy of looking up.</span><span>FIELD GUIDE · 01</span></footer>

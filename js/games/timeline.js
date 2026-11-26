@@ -11,11 +11,10 @@ export function mountTimeline(stage, api) {
   let score = 0;
   let items = [];
   let checked = false;
-  let dragId = null;
 
   const top = el('p', 'g-top');
   const track = el('div', 'g-track', '<span class="cyan"></span>');
-  const hint = el('p', 'tl-hint', 'OLDEST ↑ · NEWEST ↓ — DRAG THE ROWS, OR USE THE ARROWS');
+  const hint = el('p', 'tl-hint', 'OLDEST ↑ · NEWEST ↓ — REORDER WITH THE ARROW BUTTONS');
   const list = el('div', 'tl-list');
   const actions = el('div', 'g-actions');
   stage.append(top, track, hint, list, actions);
@@ -32,46 +31,17 @@ export function mountTimeline(stage, api) {
     items.forEach((ev, i) => {
       const row = el('article', 'tl-row');
       row.dataset.id = ev.id;
-      row.draggable = !checked;
+      row.draggable = false;
       const correct = checked && ev.id === order[i].id;
       if (checked) row.classList.add(correct ? 'right' : 'wrong');
       row.innerHTML = `
-        <button class="tl-grip" type="button" aria-label="Drag to reorder: ${ev.event}">⋮⋮</button>
+        <span class="tl-position" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span>
         <div class="tl-text"><b>${ev.event}</b>${checked ? `<span>${ev.scientist} · ${ev.yearLabel} — ${ev.detail}</span>` : ''}</div>
         ${checked ? `<span class="tl-mark ${correct ? 'right' : 'wrong'}">${correct ? '✓' : '✗'}</span>` : ''}
         <span class="tl-move">
           <button type="button" data-move="up" aria-label="Move up" ${checked || i === 0 ? 'disabled' : ''}>↑</button>
           <button type="button" data-move="down" aria-label="Move down" ${checked || i === items.length - 1 ? 'disabled' : ''}>↓</button>
         </span>`;
-      row.querySelector('.tl-grip').addEventListener('pointerdown', (event) => {
-        if (checked) return;
-        dragId = ev.id;
-        row.classList.add('dragging');
-        try { event.dataTransfer.setData('text/plain', ev.id); } catch { /* drag not available */ }
-      });
-      row.addEventListener('pointerup', () => { dragId = null; row.classList.remove('dragging'); });
-      row.addEventListener('dragstart', (event) => {
-        dragId = ev.id;
-        row.classList.add('dragging');
-        event.dataTransfer.setData('text/plain', ev.id);
-      });
-      row.addEventListener('dragend', () => { dragId = null; row.classList.remove('dragging'); });
-      row.addEventListener('dragover', (event) => {
-        if (!dragId || dragId === ev.id) return;
-        event.preventDefault();
-        row.classList.add('over');
-      });
-      row.addEventListener('dragleave', () => row.classList.remove('over'));
-      row.addEventListener('drop', (event) => {
-        event.preventDefault();
-        row.classList.remove('over');
-        if (!dragId || dragId === ev.id) return;
-        const from = items.findIndex((x) => x.id === dragId);
-        const to = items.findIndex((x) => x.id === ev.id);
-        items.splice(to, 0, items.splice(from, 1)[0]);
-        dragId = null;
-        paint();
-      });
       row.querySelectorAll('[data-move]').forEach((button) => {
         button.addEventListener('click', () => {
           const dir = button.dataset.move === 'up' ? -1 : 1;

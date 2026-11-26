@@ -36,7 +36,7 @@ export function mountTelescope(stage, api) {
   const ctx = viewfinder.getContext('2d');
   drawEmpty(ctx, '');
 
-  const info = el('div', 'scope-info', '<b>OBSERVATORY READY</b>Select a target from the catalogue to begin an observation run.');
+  const info = el('div', 'scope-info', '<b>OBSERVATORY READY</b>Choose a target, match its RA and Dec, then select a filter and exposure. Capture works within 0.7 hours of RA and 6° of Dec.');
   const sliders = el('div', 'g-slider-row');
   const raSlider = document.createElement('input');
   raSlider.type = 'range';
@@ -87,6 +87,7 @@ export function mountTelescope(stage, api) {
 
   const capture = el('button', 'button primary', 'Capture image ⌖');
   capture.type = 'button';
+  capture.disabled = true;
   capture.style.alignSelf = 'flex-start';
 
   panel.append(viewfinder, info, sliders, filtersRow, capture);
@@ -104,8 +105,9 @@ export function mountTelescope(stage, api) {
 
   function pick(target) {
     selected = target;
+    capture.disabled = false;
     drawEmpty(ctx, '');
-    info.innerHTML = `<b>${target.name}</b><span class="coords">CATALOGUE POSITION ${fmtRa(target.ra)} / ${fmtDec(target.dec)}</span><br>${target.info}`;
+    info.innerHTML = `<b>${target.name}</b><span class="coords">MATCH THIS POSITION · ${fmtRa(target.ra)} / ${fmtDec(target.dec)}</span><br>${target.info}`;
     paintCatalog();
     api.signal(`Slew to ${target.name} — dial in the coordinates`, 'warn', 3000);
   }

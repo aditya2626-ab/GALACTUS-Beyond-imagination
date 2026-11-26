@@ -1,0 +1,48 @@
+/* Shared layout rhythm used across the field guide, course, and arcade. */
+:root {
+  --header-height: 76px;
+  --page-gutter: clamp(20px, 7vw, 100px);
+  --content-width: 1320px;
+}
+
+html { scroll-padding-top: var(--header-height); }
+.topbar { padding-inline: var(--page-gutter); gap: var(--space-5); }
+.topbar nav { gap: clamp(14px, 2.4vw, 32px); }
+footer { padding-inline: var(--page-gutter); }
+.hero, .atlas-section, .notes-section, .course-intro, .check-inner { padding-inline: var(--page-gutter); }
+.section-heading { gap: var(--space-5); margin-bottom: var(--space-5); }
+.arcade-intro,
+.arcade-missions,
+.arcade-stage-wrap {
+  width: 100%;
+  max-width: none;
+  padding-inline: max(var(--page-gutter), calc((100% - var(--content-width)) / 2));
+}
+.arcade-intro { min-height: 0; padding-top: calc(var(--header-height) + var(--space-8)); padding-bottom: var(--space-7); gap: clamp(var(--space-6), 6vw, 80px); }
+.arcade-missions { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+.arcade-stage-wrap { padding-top: var(--space-7); padding-bottom: var(--space-8); }
+.mission-grid { gap: var(--space-3); }
+.mission-card { padding: var(--space-5); }
+.stage-heading { margin-bottom: var(--space-5); }
+.stage { padding: clamp(var(--space-4), 3vw, var(--space-6)); }
+.g-choices { gap: var(--space-2); margin-top: var(--space-4); }
+.scope-panel { gap: var(--space-3); padding: var(--space-4); }
+.g-slider-row { gap: var(--space-3); }
+button:disabled { cursor: not-allowed; opacity: .5; }
+.course-intro .course-copy,
+.hero-copy { min-width: 0; }
+
+@media (max-width: 680px) {
+  :root { --header-height: 64px; --page-gutter: 20px; }
+  .arcade-intro { padding-top: calc(var(--header-height) + var(--space-5)); padding-bottom: var(--space-6); gap: var(--space-5); }
+  .arcade-missions { padding-top: var(--space-7); padding-bottom: var(--space-7); }
+  .arcade-stage-wrap { padding-top: var(--space-6); padding-bottom: var(--space-7); }
+  .mission-grid { gap: var(--space-2); }
+  .mission-card { min-height: 0; padding: var(--space-4); }
+  .stage { min-height: 0; padding: var(--space-3); }
+  .scope-panel { padding: var(--space-3); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}

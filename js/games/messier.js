@@ -62,7 +62,7 @@ export function mountMessier(stage, api) {
       if (timeLeft <= 0) {
         hunting = false;
         render(ctx, objects, stars, true);
-        showNote(`TIME! ${target.catalog} ${target.name} was still hiding in the field.`, false);
+        showNote(`TIME! ${target.catalog} ${target.name} was still hiding in the field.`, true);
       }
     }, 1000);
   }

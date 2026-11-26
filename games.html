@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#08090e">
+  <meta name="description" content="Six arcade missions for the field guide: classify galaxies, fly a black hole, run a telescope, hunt Messier objects, and more.">
+  <title>The arcade — GALACTUS</title>
+  <link rel="stylesheet" href="css/base.css"><link rel="stylesheet" href="css/games.css"><link rel="stylesheet" href="css/motion.css">
+  <script type="module" src="js/arcade.js"></script>
+</head>
+<body>
+  <header class="topbar"><a class="wordmark" href="index.html"><img src="assets/galactus-mark.webp" alt="" width="30" height="30"><span>GALACTUS</span><small>ASTRONOMY FIELD GUIDE</small></a>
+    <nav aria-label="Main navigation"><a href="index.html#atlas">Cosmic atlas</a><a href="index.html#field-notes">Field notes</a><a class="nav-pill" href="#missions">Play the arcade <span>↗</span></a></nav>
+  </header>
+  <main>
+    <section class="arcade-intro">
+      <div class="arcade-copy">
+        <p class="eyebrow"><i></i> THE ARCADE / SIX MISSIONS</p>
+        <h1>Learn it,<br>then <em>play it.</em></h1>
+        <p class="lede">Every mission turns a chapter of the field guide into a game. Score points, earn XP, climb the field ranks — from Stargazer to Cosmic Legend. Progress stays saved on this device.</p>
+        <div class="hero-actions"><a class="button primary" href="#missions">Choose a mission <span>↓</span></a><a class="text-link" href="course.html">Back to the modules <span>→</span></a></div>
+      </div>
+      <aside class="rank-card" id="rank-card" aria-live="polite">
+        <p class="eyebrow">FIELD RANK</p>
+        <p class="rank-name"><em id="rank-name">Stargazer</em></p>
+        <p class="rank-meta"><span id="rank-level">RANK 1 / 7</span><span id="rank-xp">0 XP TOTAL</span></p>
+        <div class="xp-track" role="progressbar" aria-label="Progress to next rank" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="xp-track"><span id="xp-fill"></span></div>
+        <p class="xp-next" id="xp-next">Next rank at 150 XP</p>
+        <div class="rank-stats" id="rank-stats"></div>
+        <button class="text-button" id="arcade-reset" type="button">Reset progress ↺</button>
+      </aside>
+    </section>
+    <section class="arcade-missions" id="missions">
+      <div class="section-heading"><div><p class="eyebrow">01 / CHOOSE A MISSION</p><h2>Six ways to <em>master the sky.</em></h2></div><p>Each mission awards XP as you play. Best scores are logged beside every card.</p></div>
+      <div class="mission-grid" id="mission-grid"></div>
+    </section>
+    <section class="arcade-stage-wrap" id="play" hidden>
+      <div class="stage-heading">
+        <button class="text-button" id="stage-back" type="button">← All missions</button>
+        <div class="stage-title"><p class="eyebrow" id="stage-eyebrow">MISSION 01</p><h2 id="stage-name">Mission</h2><p id="stage-tagline"></p></div>
+        <span class="stage-best" id="stage-best"></span>
+      </div>
+      <div class="stage" id="stage" aria-live="polite"></div>
+    </section>
+  </main>
+  <footer><a class="wordmark" href="index.html"><img src="assets/galactus-mark.webp" alt="" width="24" height="24"><span>GALACTUS</span></a><span>Made for the joy of looking up.</span><span>FIELD GUIDE · 03</span></footer>
+  <div class="signal-root" id="signal-root" aria-live="polite"></div>
+</body>
+</html>

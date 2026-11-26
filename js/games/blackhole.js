@@ -2,45 +2,15 @@
 // Pilot a probe on real 1/r² gravity. Collect science pods, skim the disk, survive.
 
 import { el } from './game-data.js';
-
-const W = 640;
-const H = 440;
-const CX = W / 2;
-const CY = H / 2;
-const HORIZON_R = 34;
-const DANGER_R = 118;
-const GRAVITY = 26000;
-const THRUST = 160;
-const START_ORBIT_R = 180;
-
-function spawnPod() {
-  const angle = Math.random() * Math.PI * 2;
-  const r = DANGER_R + 25 + Math.random() * 90;
-  return { x: CX + Math.cos(angle) * r, y: CY + Math.sin(angle) * r * 0.9, collected: false, phase: Math.random() * 6 };
-}
-
-function initState() {
-  const a = Math.random() * Math.PI * 2;
-  const v = Math.sqrt((GRAVITY / START_ORBIT_R) * 0.92);
-  return {
-    px: CX + Math.cos(a) * START_ORBIT_R,
-    py: CY + Math.sin(a) * START_ORBIT_R * 0.9,
-    vx: -Math.sin(a) * v,
-    vy: Math.cos(a) * v,
-    hull: 100,
-    score: 0,
-    time: 0,
-    over: false,
-    pods: [spawnPod(), spawnPod(), spawnPod()],
-    alert: false,
-  };
-}
+import { WORLD, initState } from './blackhole-state.js';
+import { drawScene } from './blackhole-render.js';
+import { advanceProbe } from './blackhole-physics.js';
 
 export function mountBlackHole(stage, api) {
   const hud = el('div', 'bh-hud');
   const canvas = document.createElement('canvas');
-  canvas.width = W;
-  canvas.height = H;
+  canvas.width = WORLD.W;
+  canvas.height = WORLD.H;
   canvas.className = 'g-canvas';
   canvas.setAttribute('role', 'img');
   canvas.setAttribute('aria-label', 'Black hole flight simulator');
@@ -114,84 +84,6 @@ export function mountBlackHole(stage, api) {
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('keyup', onKeyUp);
 
-  function drawScene(now) {
-    ctx.fillStyle = '#03030a';
-    ctx.fillRect(0, 0, W, H);
-    for (let i = 0; i < 90; i++) {
-      ctx.fillStyle = `rgba(255,255,255,${0.08 + ((i * 37) % 50) / 100})`;
-      ctx.fillRect((i * 97 + 31) % W, (i * 173 + 61) % H, 1.4, 1.4);
-    }
-    const disk = ctx.createRadialGradient(CX, CY, HORIZON_R, CX, CY, DANGER_R);
-    disk.addColorStop(0, 'rgba(255,170,60,.85)');
-    disk.addColorStop(0.45, 'rgba(255,110,60,.4)');
-    disk.addColorStop(1, 'rgba(180,60,220,0)');
-    ctx.fillStyle = disk;
-    ctx.beginPath();
-    ctx.ellipse(CX, CY, DANGER_R, DANGER_R * 0.82, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.save();
-    ctx.translate(CX, CY);
-    for (let i = 0; i < 5; i++) {
-      ctx.strokeStyle = `rgba(255,200,120,${0.14 - i * 0.02})`;
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.ellipse(0, 0, HORIZON_R + 14 + i * 16, (HORIZON_R + 14 + i * 16) * 0.6, now / 9000 + i, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-    ctx.restore();
-    ctx.fillStyle = '#000';
-    ctx.beginPath();
-    ctx.arc(CX, CY, HORIZON_R, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(255,230,170,.9)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(CX, CY, HORIZON_R + 2, 0, Math.PI * 2);
-    ctx.stroke();
-
-    for (const pod of state.pods) {
-      if (pod.collected) continue;
-      const pulse = 3 + Math.sin(pod.phase) * 1.5;
-      ctx.fillStyle = 'rgba(90,240,190,.9)';
-      ctx.beginPath();
-      ctx.arc(pod.x, pod.y, pulse + 2, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.fillStyle = 'rgba(90,240,190,.25)';
-      ctx.beginPath();
-      ctx.arc(pod.x, pod.y, pulse + 9, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    const angle = Math.atan2(state.vy, state.vx);
-    ctx.save();
-    ctx.translate(state.px, state.py);
-    ctx.rotate(angle);
-    ctx.fillStyle = state.alert ? '#ff5470' : '#f5f5f5';
-    ctx.beginPath();
-    ctx.moveTo(10, 0);
-    ctx.lineTo(-7, 6);
-    ctx.lineTo(-4, 0);
-    ctx.lineTo(-7, -6);
-    ctx.closePath();
-    ctx.fill();
-    if (keys.up || keys.down || keys.left || keys.right) {
-      ctx.fillStyle = 'rgba(255,180,80,.9)';
-      ctx.beginPath();
-      ctx.moveTo(-6, 0);
-      ctx.lineTo(-14 - Math.random() * 6, 0);
-      ctx.lineTo(-6, 3);
-      ctx.closePath();
-      ctx.fill();
-    }
-    ctx.restore();
-    if (state.alert) {
-      ctx.strokeStyle = `rgba(255,80,100,${0.4 + Math.sin(now / 90) * 0.3})`;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(state.px, state.py, 18, 0, Math.PI * 2);
-      ctx.stroke();
-    }
-  }
 
   function endGame(cause) {
     state.over = true;
@@ -217,54 +109,11 @@ export function mountBlackHole(stage, api) {
 
   function step(now) {
     if (!running) return;
-    const dt = Math.min((now - last) / 1000, 0.05);
+    const result = advanceProbe(now, last, state, keys, api, WORLD);
     last = now;
-    let tx = 0;
-    let ty = 0;
-    if (keys.up) ty -= THRUST;
-    if (keys.down) ty += THRUST;
-    if (keys.left) tx -= THRUST;
-    if (keys.right) tx += THRUST;
-
-    const dx = CX - state.px;
-    const dy = CY - state.py;
-    const r = Math.max(Math.hypot(dx, dy), 20);
-    const g = GRAVITY / (r * r);
-    state.vx += (dx / r) * g * dt + tx * dt;
-    state.vy += (dy / r) * g * dt + ty * dt;
-    state.px += state.vx * dt;
-    state.py += state.vy * dt;
-
-    const margin = 12;
-    if (state.px < margin) { state.px = margin; state.vx = Math.abs(state.vx) * 0.6; }
-    if (state.px > W - margin) { state.px = W - margin; state.vx = -Math.abs(state.vx) * 0.6; }
-    if (state.py < margin) { state.py = margin; state.vy = Math.abs(state.vy) * 0.6; }
-    if (state.py > H - margin) { state.py = H - margin; state.vy = -Math.abs(state.vy) * 0.6; }
-
-    state.time += dt;
-    state.score += dt * 10;
-    state.alert = r < DANGER_R;
-    if (state.alert) {
-      const depth = 1 - (r - HORIZON_R) / (DANGER_R - HORIZON_R);
-      state.hull -= (12 + depth * 55) * dt;
-      state.score += depth * dt * 60;
-    }
-    for (const pod of state.pods) {
-      pod.phase += dt * 3;
-      if (!pod.collected && Math.hypot(pod.x - state.px, pod.y - state.py) < 16) {
-        pod.collected = true;
-        state.score += 100;
-        state.pods.push(spawnPod());
-        api.signal('Science pod secured +100', 'ok', 1600);
-      }
-    }
-    if (state.pods.filter((p) => !p.collected).length < 3) state.pods.push(spawnPod());
-
     paintHud();
-    drawScene(now);
-
-    if (r <= HORIZON_R + 4) { endGame('horizon'); return; }
-    if (state.hull <= 0) { state.hull = 0; endGame('hull'); return; }
+    drawScene(ctx, state, keys, now, WORLD);
+    if (result.cause) { endGame(result.cause); return; }
     raf = requestAnimationFrame(step);
   }
 
@@ -283,7 +132,7 @@ export function mountBlackHole(stage, api) {
 
   startButton.addEventListener('click', reset);
   paintHud();
-  drawScene(performance.now());
+  drawScene(ctx, state, keys, performance.now(), WORLD);
 
   return () => {
     running = false;

@@ -1,38 +1,22 @@
-# GALACTUS-Beyond-imagination
+# GALACTUS — Astronomy Field Guide
 
-Theory we'll use is powered by:
+A compact astronomy learning site made with plain HTML, CSS, JavaScript modules, and local image assets. It uses no framework or build step.
 
-```
-Computer Architecture
-Software Engineering
-```
+## Run locally
+
+From this folder, run `python -m http.server 8000`, then open `http://localhost:8000`.
 
 ## Project structure
 
-The interactive behavior is split into small browser modules:
+- `index.html` — overview, four-scale cosmic atlas, selectable worlds and missions, timeline, and field notes.
+- `course.html` — six astronomy modules (28 lessons) with a live course index, saved progress, per-lesson deep dives, glossary terms, 30-second checks, per-module checks, and a final understanding check.
+- `games.html` — the arcade: six playable missions with XP, field ranks, and saved best scores.
+- `css/` — shared design system, page styles, transitions, and arcade styles. Course and arcade styles are split into ordered parts to keep each file under 150 lines.
+- `js/course-data.js` — curated lesson notes: 28 lessons in six modules, each with a key idea, deep dive, glossary terms, a hands-on activity and a 30-second quick check, plus three-question module checks.
+- `js/universe-data.js` — map objects and missions at four scales.
+- `js/course*.js` — modular course state, navigation, lessons, quizzes, controls, and field checks. `js/data.js`, `js/home.js`, and `js/universe.js` provide field facts, home interactions, and map drawing.
+- `js/arcade.js`, `js/arcade-state.js`, and `js/arcade-ui.js` — mission switching, saved scores and XP, ranks, signals, and arcade rendering.
+- `js/games/` — one module per mission: `galaxy.js`, `blackhole.js`, `telescope.js`, `messier.js`, `distance.js`, `timeline.js`, plus shared `game-data.js`.
+- `assets/` — Galactus marks and astronomy visuals from the static build.
 
-- `script.js` is the module entry point.
-- `js/shared.js` contains shared DOM, canvas, animation, and visual constants.
-- `js/navigation.js` handles scroll reveals and active navigation.
-- `js/hero.js` renders the interactive starfield.
-- `js/solar-system.js` powers the orbital map and planet dossiers.
-- `js/stellar-lifecycle.js` powers the stellar mass and lifecycle lab.
-- `js/cosmic-scale.js` powers the logarithmic distance ruler.
-- `js/quiz.js` contains the quiz state and interactions.
-
-The page loads `script.js` as an ES module, so the feature modules can import
-only the shared functionality they need.
-
-Styles are organized the same way:
-
-- `styles.css` is the stylesheet entry point and preserves import order.
-- `css/base.css` contains theme tokens and global defaults.
-- `css/navigation.css`, `css/hero.css`, and `css/controls.css` contain shared UI styles.
-- `css/layout.css` contains section layout styles.
-- `css/solar-system.css`, `css/stellar-lifecycle.css`, `css/cosmic-scale.css`, and `css/quiz.css` contain chapter-specific styles.
-- `css/footer.css`, `css/animations.css`, and `css/responsive.css` contain shared finishing and responsive rules.
-
-The console simulations also have reusable modules:
-
-- `simulations/c/planet.h`, `physics.h`, and `terminal.h` contain the C model, physics, and terminal helpers used by `simulation1.c`.
-- `simulations/cpp/planet.hpp`, `physics.hpp`, and `terminal.hpp` contain the equivalent C++ helpers used by `orbit.cpp`.
+Course XP economy: +10 XP per lesson marked as read, +2 XP per first-correct 30-second check, +5 XP per module-check answer (first pass only) — 426 XP on offer, banked in the same store as the arcade (`galactus-arcade-v1`). Progress lives in `galactus-course-v1`.

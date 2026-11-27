@@ -1,0 +1,77 @@
+/* Final layout layer: keeps each observatory stop inside the viewport. */
+html { scroll-snap-type:y proximity; scroll-behavior:smooth; scroll-padding-top:var(--header-height); }
+body { width:100%; min-width:0; overflow-x:clip; scroll-snap-type:none; }
+main { width:100%; min-width:0; }
+.view-section { box-sizing:border-box; width:100%; min-width:100%; max-width:none; margin:0; scroll-snap-stop:normal; }
+.hero { display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,.98fr); grid-template-rows:minmax(0,1fr); align-items:center; gap:clamp(20px,4vw,70px); width:100%; max-width:none; margin:0; height:100vh; height:100svh; padding:calc(var(--header-height) + 28px) clamp(24px,7vw,100px) 66px; }
+.atlas-section,.notes-section,.lessons,.check-section { width:100%; max-width:none; margin:0; }
+.hero-copy { grid-column:1; grid-row:1; width:100%; max-width:590px; z-index:2; }
+.hero-copy h1 { font-size:clamp(46px,6.2vw,82px); }
+.hero-scene { grid-column:2; grid-row:1; position:relative; width:100%; height:min(68svh,620px); min-width:0; isolation:isolate; }
+.hero-planet { position:absolute; z-index:1; left:50%; top:50%; width:min(100%,590px); aspect-ratio:1; translate:0 0; transform:translate3d(calc(-50% + var(--parallax-x,0px)),calc(-50% + var(--parallax-y,0px)),0); transition:transform .5s var(--ease); animation:planet-float 6s ease-in-out infinite; }
+.hero-planet img { position:relative; z-index:1; display:block; width:100%; height:100%; object-fit:cover; object-position:center; border-radius:50%; clip-path:circle(44.4% at 50.3% 51%); mix-blend-mode:screen; animation:planet-turn 45s linear infinite,planet-breathe 5s ease-in-out infinite alternate; }
+.orbit-path { position:absolute; z-index:2; left:50%; top:50%; width:94%; height:43%; border:1px solid #e8b86338; border-radius:50%; pointer-events:none; }
+.orbit-path-one { transform:translate(-50%,-50%) rotate(-28deg); animation:orbit-spin-one 24s linear infinite; }
+.orbit-path-two { width:80%; height:62%; border-color:#6ec3c832; transform:translate(-50%,-50%) rotate(42deg); animation:orbit-spin-two 32s linear infinite; }
+.orbit-path::after { content:""; position:absolute; left:13%; top:12%; width:7px; height:7px; border-radius:50%; background:var(--amber); box-shadow:0 0 14px var(--amber); }
+.planet-halo { position:absolute; z-index:0; inset:3%; border:1px solid #ffffff16; border-radius:50%; background:radial-gradient(circle,transparent 61%,#ef80552c 74%,transparent 76%); box-shadow:0 0 48px #ed755547,inset 0 0 34px #ed75552a; animation:halo-breathe 3.8s ease-in-out infinite; pointer-events:none; }
+.hero-floats { position:absolute; z-index:3; right:-2%; bottom:7%; display:grid; gap:10px; width:min(290px,72%); }
+.hero-foot { position:absolute; right:clamp(24px,7vw,100px); bottom:54px; left:clamp(24px,7vw,100px); display:flex; justify-content:space-between; color:var(--dim); font:8px var(--mono); letter-spacing:.12em; }
+.hero-foot a { color:var(--muted); text-decoration:none; }
+.course-intro { width:100%; max-width:none; margin:0; height:100vh; height:100svh; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,.9fr); align-items:center; gap:clamp(28px,7vw,100px); padding:calc(var(--header-height) + 25px) clamp(24px,7vw,100px) 66px; }
+.course-copy { width:100%; max-width:600px; position:relative; z-index:1; }
+.course-copy h1 { font-size:clamp(44px,6.3vw,80px); }
+.course-intro .lede { max-width:520px; }
+.course-cover { position:relative; inset:auto; top:auto; right:auto; bottom:auto; left:auto; align-self:center; translate:0 28px; width:100%; max-width:530px; height:auto; aspect-ratio:1.08; margin:auto; transform:rotate(1deg); box-shadow:0 22px 80px #0008; animation:cover-float 5s ease-in-out infinite; }
+.course-cover img { object-position:center; }
+.course-cover small { position:absolute; z-index:1; right:20px; bottom:21px; color:var(--muted); font:8px var(--mono); letter-spacing:.12em; }
+.lessons,.check-inner { width:100%; max-width:none; }
+.lessons { padding-left:clamp(24px,7vw,100px); padding-right:clamp(24px,7vw,100px); }
+.check-inner { padding-left:clamp(24px,7vw,100px); padding-right:clamp(24px,7vw,100px); }
+.view-section.is-entered .hero-scene { animation:scene-arrive .85s var(--ease) both; }
+.view-section.is-entered .course-cover { animation:scene-arrive .85s var(--ease) both,cover-float 8s .85s ease-in-out infinite; }
+.button,.scene-nav button,.landmark-list button,.module-nav button,.topic-card,.activity-items button { transition:transform .28s var(--ease),color .28s,border-color .28s,background .28s,filter .28s; }
+@keyframes planet-turn { to { transform:rotate(360deg) scale(1.025); } }
+@keyframes planet-breathe { from { filter:brightness(.9) saturate(.9); } to { filter:brightness(1.16) saturate(1.2); } }
+@keyframes planet-float { 0%,100% { translate:0 -6px; } 50% { translate:0 9px; } }
+@keyframes orbit-spin-one { to { transform:translate(-50%,-50%) rotate(332deg); } }
+@keyframes orbit-spin-two { to { transform:translate(-50%,-50%) rotate(402deg); } }
+@keyframes cover-float { 0%,100% { transform:rotate(1deg) translateY(0); } 50% { transform:rotate(-.5deg) translateY(-9px); } }
+@keyframes scene-arrive { from { opacity:0; transform:translateY(20px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+@media(max-width:900px) {
+  .hero { grid-template-columns:minmax(0,1fr) minmax(270px,.9fr); gap:22px; padding-top:calc(var(--header-height) + 35px); }
+  .hero-stats { gap:6px; }
+  .hero-stats span { min-width:105px; padding:8px; }
+  .course-intro { gap:28px; }
+}
+@media(max-width:680px) {
+  .hero { display:block; padding:calc(var(--header-height) + 34px) 21px 62px; }
+  .hero-copy { max-width:100%; padding-top:0; }
+  .hero-copy h1 { max-width:500px; font-size:clamp(43px,11vw,66px); }
+  .hero-copy .lede { max-width:440px; font-size:13px; line-height:1.65; }
+  .hero-actions { gap:12px; margin-bottom:17px; }
+  .hero-stats { position:relative; z-index:2; gap:6px; }
+  .hero-stats span { min-width:0; font-size:7px; }
+  .hero-stats b { font-size:15px; }
+  .hero-scene { position:absolute; z-index:0; right:-18%; bottom:12%; width:82vw; height:40svh; opacity:.8; pointer-events:none; }
+  .hero-planet { top:50%; right:auto; width:min(100%,340px); opacity:1; }
+  .hero-floats { display:none; }
+  .hero-foot { right:21px; left:21px; bottom:48px; font-size:7px; }
+  .course-intro { display:flex; flex-direction:column; align-items:stretch; justify-content:center; gap:13px; padding:calc(var(--header-height) + 22px) 21px 57px; }
+  .course-copy h1 { font-size:clamp(39px,10.5vw,58px); margin-bottom:14px; }
+  .course-intro .lede { margin-bottom:14px; font-size:12px; line-height:1.55; }
+  .course-cover { width:min(100%,400px); height:auto; aspect-ratio:2.1; margin:4px auto 0; }
+  .course-cover span { bottom:12px; left:14px; font-size:8px; }
+  .course-cover small { right:13px; bottom:14px; font-size:7px; }
+  .lessons { padding-left:0; padding-right:0; }
+  .check-inner { padding-left:21px; padding-right:21px; }
+}
+@media(max-height:700px) and (max-width:680px) {
+  .hero { padding-top:calc(var(--header-height) + 17px); }
+  .hero-copy h1 { font-size:42px; margin-bottom:15px; }
+  .hero-copy .lede { font-size:11px; margin-bottom:13px; }
+  .hero-stats span { padding:6px; }
+  .hero-scene { bottom:8%; height:34svh; }
+  .course-intro { gap:8px; padding-top:calc(var(--header-height) + 14px); }
+  .course-cover { aspect-ratio:3; }
+}

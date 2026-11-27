@@ -15,7 +15,7 @@ From this folder, run `python -m http.server 8000`, then open `http://localhost:
 - `js/course-data.js` — curated lesson notes: 28 lessons in six modules, each with a key idea, deep dive, glossary terms, a hands-on activity and a 30-second quick check, plus three-question module checks.
 - `js/universe-data.js` — map objects and missions at four scales.
 - `js/course*.js` — modular course state, navigation, lessons, quizzes, controls, and field checks. `js/data.js`, `js/home.js`, and `js/universe.js` provide field facts, home interactions, and map drawing.
-- `js/arcade.js` and `js/arcade-ui.js` — arcade state, ranks, signals, mission cards, and stage switching.
+- `js/arcade.js`, `js/arcade-state.js`, and `js/arcade-ui.js` — mission switching, saved scores and XP, ranks, signals, and arcade rendering.
 - `js/games/` — one module per mission: `galaxy.js`, `blackhole.js`, `telescope.js`, `messier.js`, `distance.js`, `timeline.js`, plus shared `game-data.js`.
 - `assets/` — Galactus marks and astronomy visuals from the static build.
 

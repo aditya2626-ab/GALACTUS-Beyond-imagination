@@ -3,6 +3,11 @@
 
 html { scroll-snap-type:none; }
 
+/* Keep shared motion chrome from covering playable content on this page. */
+.arcade-page .topbar { position:fixed; inset:0 0 auto; height:var(--header-height); }
+.arcade-page footer { position:static; inset:auto; min-height:0; background:none; backdrop-filter:none; }
+.arcade-page main { padding-bottom:var(--space-7); }
+
 /* ---------- intro ---------- */
 .arcade-intro { display:grid; grid-template-columns:minmax(0,1.1fr) minmax(300px,.9fr); align-items:center; gap:clamp(35px,6vw,90px); max-width:1320px; margin:0 auto; padding:calc(var(--header-height) + 56px) clamp(22px,7vw,96px) 56px; border-bottom:1px solid var(--line); min-height:430px; }
 .arcade-copy h1 { margin-bottom:24px; }

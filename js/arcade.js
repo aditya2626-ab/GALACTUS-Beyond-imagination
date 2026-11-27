@@ -7,60 +7,15 @@ import { mountTelescope } from './games/telescope.js';
 import { mountMessier } from './games/messier.js';
 import { mountDistance } from './games/distance.js';
 import { mountTimeline } from './games/timeline.js';
-import { el } from './games/game-data.js';
-import { RANKS, levelFromXp, renderRankCard, renderGrid, updateStageBest } from './arcade-ui.js';
-// ---------- persistent store ----------
-const KEY = 'galactus-arcade-v1';
-
-const store = load();
-
-function load() {
-  try {
-    const raw = JSON.parse(localStorage.getItem(KEY));
-    if (raw && typeof raw.xp === 'number' && raw.best) return raw;
-  } catch { /* first visit */ }
-  return { xp: 0, best: {} };
-}
-
-function save() {
-  localStorage.setItem(KEY, JSON.stringify(store));
-}
+import { renderRankCard, renderGrid, updateStageBest } from './arcade-ui.js';
+import { awardXp, createSignal, save, store, updateBest } from './arcade-state.js';
 
 const listeners = new Set();
 function emit() {
   listeners.forEach((fn) => fn());
 }
 
-function addXp(amount) {
-  if (!(amount > 0)) return;
-  const before = levelFromXp(store.xp);
-  store.xp += Math.round(amount);
-  save();
-  const after = levelFromXp(store.xp);
-  if (after > before) signal(`Rank up — you are now a ${RANKS[after - 1]}`, 'ok', 3600);
-  else signal(`+${Math.round(amount)} XP`, 'ok');
-  emit();
-}
-
-function setBest(id, score) {
-  if (!(score > (store.best[id] || 0))) return;
-  store.best[id] = score;
-  save();
-  emit();
-}
-
-// ---------- signal toasts ----------
-function signal(text, kind = 'ok', ttl = 2600) {
-  const root = document.querySelector('#signal-root');
-  if (!root) return;
-  const toast = el('p', `signal signal-${kind}`, text);
-  root.append(toast);
-  requestAnimationFrame(() => toast.classList.add('on'));
-  setTimeout(() => {
-    toast.classList.remove('on');
-    setTimeout(() => toast.remove(), 350);
-  }, ttl);
-}
+const signal = createSignal();
 
 // ---------- mission registry ----------
 const MISSIONS = [
@@ -114,9 +69,9 @@ function openMission(index) {
   stage.innerHTML = '';
   stageWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
   cleanup = mission.mount(stage, {
-    addXp,
+    addXp: (amount) => awardXp(amount, signal, emit),
     setBest: (score) => {
-      setBest(mission.id, score);
+      updateBest(mission.id, score, emit);
       updateStageBest(mission, store);
     },
     signal,

@@ -22,7 +22,7 @@ export function drawEmpty(ctx, hint) {
   }
 }
 
-export export function drawTarget(ctx, target, filter, exposure) {
+export function drawTarget(ctx, target, filter, exposure) {
   const W = ctx.canvas.width;
   const H = ctx.canvas.height;
   const cx = W / 2;

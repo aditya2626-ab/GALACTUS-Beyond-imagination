@@ -101,11 +101,6 @@ html { scroll-snap-type:none; }
 .bh-hull span { display:block; height:100%; background:var(--sage); transition:width .2s linear; }
 .bh-hull span.low { background:var(--ember); }
 .bh-alert { color:var(--ember); animation:telemetry-pulse 1s infinite; }
-.bh-pad { display:grid; grid-template-columns:repeat(3,58px); grid-template-rows:repeat(2,46px); gap:8px; justify-content:center; margin-top:16px; }
-.bh-pad button { border:1px solid var(--line); border-radius:12px; background:var(--glass); color:var(--ink); font-size:17px; cursor:pointer; touch-action:none; user-select:none; transition:background .15s; }
-.bh-pad button:hover { background:rgba(232,184,99,.1); }
-.bh-pad button:active { background:rgba(232,184,99,.22); }
-.bh-pad .bh-up { grid-column:2; }
 .bh-hint { margin:12px 0 0; text-align:center; color:var(--dim); font-size:10px; letter-spacing:.04em; }
 .bh-over { max-width:520px; margin:20px auto 0; padding:20px 22px; border:1px solid rgba(216,90,60,.5); border-radius:14px; background:rgba(216,90,60,.08); text-align:center; }
 .bh-over .g-title-line { color:var(--ink); }

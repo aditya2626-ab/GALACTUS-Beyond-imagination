@@ -5,18 +5,18 @@ import { el } from './game-data.js';
 import { WORLD, initState } from './blackhole-state.js';
 import { drawScene } from './blackhole-render.js';
 import { advanceProbe } from './blackhole-physics.js';
+import { bindBlackHoleControls } from './blackhole-input.js';
 
 export function mountBlackHole(stage, api) {
   const hud = el('div', 'bh-hud');
   const canvas = document.createElement('canvas');
   canvas.width = WORLD.W;
   canvas.height = WORLD.H;
-  canvas.className = 'g-canvas';
+  canvas.className = 'g-canvas bh-canvas';
   canvas.setAttribute('role', 'img');
   canvas.setAttribute('aria-label', 'Black hole flight simulator');
   canvas.style.maxWidth = '660px';
-  const pad = el('div', 'bh-pad');
-  const hint = el('p', 'bh-hint', 'Arrow keys / WASD to thrust · collect green science pods · the closer you skim the disk, the more data you gather');
+  const hint = el('p', 'bh-hint', 'TOUCH · drag on the field to steer  /  KEYBOARD · WASD or arrow keys  /  collect green science pods');
   const over = el('div', 'bh-over');
   over.hidden = true;
 
@@ -31,11 +31,12 @@ export function mountBlackHole(stage, api) {
   introActions.append(startButton);
   intro.append(introActions);
 
-  stage.append(hud, canvas, pad, hint, intro, over);
+  stage.append(hud, canvas, hint, intro, over);
 
   const ctx = canvas.getContext('2d');
   const state = initState();
-  const keys = { up: false, down: false, left: false, right: false };
+  const controls = bindBlackHoleControls(canvas);
+  const { keys } = controls;
   let raf = 0;
   let last = 0;
   let running = false;
@@ -49,41 +50,6 @@ export function mountBlackHole(stage, api) {
       <span class="bh-hull"><span class="${state.hull < 40 ? 'low' : ''}" style="width:${Math.max(state.hull, 0)}%"></span></span>
       <span>${state.alert ? '<i class="bh-alert">PROXIMITY ALERT</i>' : 'NOMINAL'}</span>`;
   }
-
-  function paintPad() {
-    pad.innerHTML = '';
-    const defs = [
-      ['up', '↑', 'Thrust up'], ['left', '←', 'Thrust left'], ['down', '↓', 'Thrust down'], ['right', '→', 'Thrust right'],
-    ];
-    defs.forEach(([key, glyph, label]) => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.className = key === 'up' ? 'bh-up' : '';
-      button.textContent = glyph;
-      button.setAttribute('aria-label', label);
-      button.addEventListener('pointerdown', (event) => { event.preventDefault(); keys[key] = true; });
-      button.addEventListener('pointerup', () => { keys[key] = false; });
-      button.addEventListener('pointerleave', () => { keys[key] = false; });
-      pad.append(button);
-    });
-  }
-  paintPad();
-
-  const keymap = {
-    ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
-    w: 'up', s: 'down', a: 'left', d: 'right', W: 'up', S: 'down', A: 'left', D: 'right',
-  };
-  const onKeyDown = (event) => {
-    const key = keymap[event.key];
-    if (key) { keys[key] = true; event.preventDefault(); }
-  };
-  const onKeyUp = (event) => {
-    const key = keymap[event.key];
-    if (key) keys[key] = false;
-  };
-  window.addEventListener('keydown', onKeyDown);
-  window.addEventListener('keyup', onKeyUp);
-
 
   function endGame(cause) {
     state.over = true;
@@ -103,12 +69,12 @@ export function mountBlackHole(stage, api) {
     again.addEventListener('click', () => { reset(); });
     over.append(again);
     over.hidden = false;
-    pad.hidden = true;
     hint.hidden = true;
   }
 
   function step(now) {
     if (!running) return;
+    controls.update(state);
     const result = advanceProbe(now, last, state, keys, api, WORLD);
     last = now;
     paintHud();
@@ -121,7 +87,7 @@ export function mountBlackHole(stage, api) {
     Object.assign(state, initState());
     over.hidden = true;
     over.innerHTML = '';
-    pad.hidden = false;
+    controls.reset();
     hint.hidden = false;
     paintHud();
     running = true;
@@ -137,7 +103,6 @@ export function mountBlackHole(stage, api) {
   return () => {
     running = false;
     cancelAnimationFrame(raf);
-    window.removeEventListener('keydown', onKeyDown);
-    window.removeEventListener('keyup', onKeyUp);
+    controls.destroy();
   };
 }

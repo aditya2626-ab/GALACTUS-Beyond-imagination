@@ -21,5 +21,4 @@
   .mission-grid { grid-template-columns:1fr; }
   .g-slider-row { grid-template-columns:1fr; }
   .stage { padding:16px; min-height:420px; }
-  .bh-pad { grid-template-columns:repeat(3,64px); }
 }

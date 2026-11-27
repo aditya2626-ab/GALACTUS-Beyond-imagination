@@ -3,12 +3,12 @@ import { spawnPod } from './blackhole-state.js';
 export function advanceProbe(now, last, state, keys, api, world) {
   const { W, H, CX, CY, DANGER_R, GRAVITY, THRUST, HORIZON_R } = world;
   const dt = Math.min((now - last) / 1000, 0.05);
-  let tx = 0;
-  let ty = 0;
-  if (keys.up) ty -= THRUST;
-  if (keys.down) ty += THRUST;
-  if (keys.left) tx -= THRUST;
-  if (keys.right) tx += THRUST;
+  let tx = Number(keys.right) - Number(keys.left) + (keys.touchX || 0);
+  let ty = Number(keys.down) - Number(keys.up) + (keys.touchY || 0);
+  const thrust = Math.hypot(tx, ty);
+  if (thrust > 1) { tx /= thrust; ty /= thrust; }
+  tx *= THRUST;
+  ty *= THRUST;
 
   const dx = CX - state.px;
   const dy = CY - state.py;
